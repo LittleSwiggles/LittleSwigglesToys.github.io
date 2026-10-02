@@ -1,0 +1,601 @@
+ <!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Little Swiggles — Premium Toy Store</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --accent1:#ffeb3b;
+  --accent2:#ff69b4;
+  --shadow:0 6px 20px rgba(12,22,45,.12);
+  --surface:#fff5f8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:var(--surface);color:#222;}
+
+/* HEADER */
+header{
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  padding:20px 0;
+  position:relative;
+}
+.topbar{display:flex;align-items:center;gap:20px; max-width:1200px;margin:auto;padding:0 20px;position:relative;}
+.logo{width:120px;height:120px;border-radius:50%;overflow:hidden;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.2);}
+.logo img{width:100%;height:100%;object-fit:cover}
+
+/* Top right buttons: cart & wishlist */
+.top-icons{
+  position:absolute;
+  right:20px;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  gap:16px;
+}
+.top-icons button{
+  background:rgba(255,255,255,0.9);
+  border:none;
+  padding:10px 14px;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:20px;
+  position:relative;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+  transition:transform .2s;
+}
+.top-icons button:hover{transform:scale(1.1);}
+.top-icons button .count{
+  position:absolute;
+  top:-6px;
+  right:-6px;
+  background:#ff1493;
+  color:#fff;
+  width:18px;height:18px;
+  font-size:12px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+/* Marquee */
+.top-banner{flex:1;overflow:hidden;white-space:nowrap;color:#fff;font-weight:bold;}
+.marquee span{display:inline-block;padding-left:100%;animation:marquee 18s linear infinite;}
+@keyframes marquee{from{transform:translateX(0)} to{transform:translateX(-100%)}}
+
+/* HERO */
+.hero{font-family:'Pacifico',cursive;font-size:2.6rem;text-align:center;margin:30px 0;color:#ff1493;}
+
+/* CAROUSEL */
+.carousel-wrapper{height:450px;margin:20px auto 0;overflow:hidden;position:relative;}
+.carousel-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease-in-out;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+.carousel-slide.active{opacity:1;pointer-events:auto;}
+.carousel-slide img{max-height:100%;max-width:100%;object-fit:contain;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.15);transition:transform 0.3s;}
+.carousel-slide img:hover{transform:scale(1.02);}
+.carousel-slide a{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);padding:12px 30px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;font-weight:bold;border-radius:999px;box-shadow:0 6px 20px rgba(0,0,0,.25);text-decoration:none;}
+
+/* SHOP */
+.container{max-width:1200px;margin:auto;padding:20px}
+.shop-row{display:grid;grid-template-columns:260px 1fr;gap:20px}
+.sidebar{background:#fff;padding:16px;border-radius:14px;box-shadow:var(--shadow);}
+.sidebar h4{margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:7px 14px;border-radius:999px;border:1px solid #ddd;background:#f5f7fb;cursor:pointer;transition:all .2s;}
+.chip.active{background:#ffe0f0;border-color:#ff69b4}
+
+/* PRODUCTS */
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.card{background:#fff;padding:14px;border-radius:14px;box-shadow:var(--shadow);transition:transform .3s, box-shadow .3s;}
+.card:hover{transform:translateY(-4px) scale(1.01); box-shadow:0 12px 30px rgba(0,0,0,.18);}
+.image-wrap{position:relative}
+.main-img{width:100%;height:200px;object-fit:contain;cursor:pointer;}
+.img-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.6);color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;}
+.img-arrow.left{left:6px}
+.img-arrow.right{right:6px}
+.thumbs{display:flex;gap:6px;margin-top:8px;}
+.thumbs img{width:50px;height:50px;object-fit:contain;border:1px solid #ddd;border-radius:8px;cursor:pointer;}
+.card strong{display:block;margin-top:10px}
+.product-link{display:block;margin-top:10px;color:#222;font-weight:bold;text-decoration:none;cursor:pointer}
+.product-link:hover{color:#ff1493}
+.price{font-weight:bold;margin-top:4px}
+
+/* Add to Cart & Wishlist buttons */
+.card .action-buttons{margin-top:10px;display:flex;gap:10px}
+.card .action-buttons button{flex:1;padding:10px;border:none;border-radius:12px;font-weight:bold;cursor:pointer;transition:transform .2s;}
+.card .add-cart{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;}
+.card .wishlist{background:#fff;border:1px solid #ff69b4;color:#ff1493;}
+.card .action-buttons button:hover{transform:scale(1.05)}
+
+/* POPUPS & MODALS */
+.popup-overlay{position:fixed;inset:0;display:none;justify-content:center;align-items:center;z-index:999;}
+.popup-content{background:linear-gradient(135deg,var(--accent1),var(--accent2));color:#fff;padding:26px;border-radius:18px;text-align:center;width:90%;max-width:480px;position:relative;}
+.popup-close{position:absolute;top:12px;right:16px;font-size:24px;cursor:pointer}
+
+/* Cart/Wishlist Modals */
+.modal-overlay{position:fixed;inset:0;display:none;justify-content:center;align-items:center;background:rgba(0,0,0,.5);z-index:1000;}
+.modal-content{background:#fff;color:#222;padding:26px;border-radius:18px;text-align:center;width:90%;max-width:480px;position:relative;max-height:80vh;overflow-y:auto}
+.modal-content h2{margin-bottom:16px}
+.modal-content ul{list-style:none;text-align:left;padding:0;margin:0;}
+.modal-content li{background:#f5f5f5;margin:6px 0;padding:8px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;}
+.modal-content li img{width:50px;height:50px;object-fit:contain;margin-right:10px;border-radius:8px;}
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select:none;
+}
+.qty-controls button {
+  width: 24px;
+  height: 24px;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 1;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 0;
+  user-select:none;
+  transition: background-color 0.2s;
+}
+.qty-controls button:hover {
+  background-color: #ff69b4;
+  color: white;
+}
+.qty-controls span {
+  min-width: 22px;
+  text-align: center;
+  font-weight: bold;
+}
+/* Cart modal footer */
+.modal-footer {
+  margin-top: 12px;
+  text-align: right;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal-footer button {
+  padding: 10px 16px;
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  border: none;
+  color: #fff;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s;
+}
+.modal-footer button:hover {
+  transform: scale(1.05);
+}
+
+/* LIGHTBOX */
+.lightbox{position:fixed;inset:0;display:none;justify-content:center;align-items:center;z-index:10000;background:rgba(0,0,0,.9);}
+.lightbox img{max-width:90%;max-height:90%;object-fit:contain}
+.lightbox .img-arrow{width:48px;height:48px;font-size:24px}
+
+/* MOBILE */
+@media(max-width:900px){.shop-row{grid-template-columns:1fr}.carousel-wrapper{height:280px}}
+</style>
+</head>
+
+<body>
+
+<!-- POPUP -->
+<div class="popup-overlay" id="popup">
+  <div class="popup-content">
+    <span class="popup-close" id="closePopup">×</span>
+    <h2>✨ Join Little Swiggles ✨</h2>
+    <p>Premium toys & exclusive deals</p>
+    <input type="email" placeholder="Your email" />
+    <br /><br />
+    <button>Subscribe</button>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="img-arrow left" onclick="lightboxChange(-1)">‹</div>
+  <img id="lightboxImg" />
+  <div class="img-arrow right" onclick="lightboxChange(1)">›</div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="cartModal">
+  <div class="modal-content">
+    <span class="popup-close" onclick="closeModal('cartModal')">×</span>
+    <h2>🛒 Your Cart</h2>
+    <ul id="cartList"></ul>
+    <div class="modal-footer">
+      <span id="cartSubtotal">$0</span>
+      <button>Checkout</button>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="wishlistModal">
+  <div class="modal-content">
+    <span class="popup-close" onclick="closeModal('wishlistModal')">×</span>
+    <h2>❤️ Your Wishlist</h2>
+    <ul id="wishlistList"></ul>
+  </div>
+</div>
+
+<header>
+  <div class="topbar">
+    <div class="logo"><img src="images/logo.jpg" alt="Logo" /></div>
+    <div class="top-banner">
+      <div class="marquee">
+        <span>Original Brands • Premium Toys • Free delivery across Lebanon on orders over $100 ✨</span>
+      </div>
+    </div>
+    <div class="top-icons">
+      <button id="cartBtn" aria-label="Open Cart">
+        🛒 <span class="count" id="cartCount">0</span>
+      </button>
+      <button id="wishlistBtn" aria-label="Open Wishlist">
+        ❤️ <span class="count" id="wishlistCount">0</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="carousel-wrapper" aria-label="Featured Products Carousel">
+    <div class="carousel-slide active">
+      <img src="images/Barbie.jpg" alt="Barbie Toys" />
+    </div>
+    <div class="carousel-slide">
+      <img src="images/hotwheels.jpg" alt="Hot Wheels" />
+    </div>
+    <div class="carousel-slide">
+      <img src="images/makeitreal.jpg" alt="Make It Real" />
+    </div>
+  </div>
+</header>
+
+<h1 class="hero">Little Swiggles, Big Giggles!</h1>
+
+<main class="container">
+  <div class="shop-row">
+    <aside class="sidebar" aria-label="Categories">
+      <h4>Categories</h4>
+      <div class="chips">
+        <button class="chip">Barbie</button>
+        <button class="chip">Hot Wheels</button>
+        <button class="chip">Play-Doh</button>
+        <button class="chip">Make It Real</button>
+        <button class="chip">Our Generation</button>
+        <button class="chip">ZURU</button>
+        <button class="chip">LeapFrog</button>
+      </div>
+    </aside>
+    <section>
+      <div class="products" id="products" aria-live="polite"></div>
+    </section>
+  </div>
+</main>
+
+<script>
+const PRODUCTS = [
+  {
+    title: "Barbie Dreamtopia Twinkle Lights Doll",
+    price: 41,
+    images: ["images/barbiedreamtopia.jpg","images/barbiedreamtopia2.jpg","images/barbiedreamtopia3.jpg"],
+    link: "product.html?id=0"
+  },
+  {
+    title: "Mattel Barbie Fun & Fancy Doll with Extra-Long Hair",
+    price: 41,
+    images: ["images/Mattel Barbie Fun & Fancy Doll with Extra-Long Hair.jpg","images/Mattel Barbie Fun & Fancy Doll with Extra-Long Hair1.jpg","images/Mattel Barbie Fun & Fancy Doll with Extra-Long Hair2.jpg"],
+    link: "product.html?id=1"
+  },
+  {
+    title: "Make It Real Beyout",
+    price: 41,
+    images: ["images/makeitrealbeyoutiful.jpg","images/makeitrealbeyoutiful1.jpg","images/makeitrealbeyoutiful2.jpg"],
+    link: "product.html?id=2"
+  },
+  {
+    title: "Sparkle Girlz Styling Princess",
+    price: 41,
+    images: ["images/sparklegirlz.jpg","images/sparklegirlz1.jpg","images/sparklegirlz3.jpg"],
+    link: "product.html?id=3"
+  },
+  {
+    title: "Mattel Barbie Mysteries: Beach Detectives Barbie Malibu Doll Cotton Candy Game Playset",
+    price: 41,
+    images: ["images/mattelbeachdetectives.jpg","images/mattelbeachdetectives1.jpg","images/mattelbeachdetectives3.jpg"],
+    link: "product.html?id=4"
+  },
+  {
+    title: "Make It Real Butterfly Cosmetic Set",
+    price: 41,
+    images: ["images/butterflyset.jpg","images/butterflyset1.jpg","images/butterflyset2.jpg"],
+    link: "product.html?id=5"
+  },
+  {
+    title: "Hot Wheels Tool Kit Truck",
+    price: 41,
+    images: ["images/hotwheelstoolkit.jpg","images/hotwheelstoolkit1.jpg"],
+    link: "product.html?id=6"
+  },
+  {
+    title: "Fisher Price 25 Key Lion Piano",
+    price: 41,
+    images: ["images/Fisherpricelionpiano.jpg","images/Fisherpricelionpiano1.jpg","images/Fisherpricelionpiano2.jpg","images/Fisherpricelionpiano3.jpg","images/Fisherpricelionpiano4.jpg"],
+    link: "product.html?id=7"
+  },
+  {
+    title: "Pour Palz XL Paint Bear",
+    price: 41,
+    images: ["images/pourpalz.jpg","images/pourpalz1.jpg","images/pourpalz2.jpg","images/pourpalz3.jpg"],
+    link: "product.html?id=8"
+  },
+  {
+    title: "Hot Wheels Roll Out Raceway Track Set",
+    price: 41,
+    images: ["images/Hotwheelsrollout.jpg","images/Hotwheelsrollout1.jpg","images/Hotwheelsrollout2.jpg","images/Hotwheelsrollout3.jpg","images/Hotwheelsrollout4.jpg"],
+    link: "product.html?id=9"
+  },
+  {
+    title: "Play-Doh Sizzlin' Grill Playset",
+    price: 41,
+    images: ["images/playdohsizzlin.jpg","images/playdohsizzlin1.jpg","images/playdohsizzlin2.jpg","images/playdohsizzlin3.jpg","images/playdohsizzlin4.jpg"],
+    link: "product.html?id=10"
+  },
+  {
+    title: "Mattel Princess Stories Fashion Doll",
+    price: 41,
+    images: ["images/storiesfashiondoll.jpg","images/storiesfashiondoll1.jpg","images/storiesfashiondoll2.jpg","images/storiesfashiondoll3.jpg","images/storiesfashiondoll4.jpg"],
+    link: "product.html?id=11"
+  },
+  {
+    title: "Mattel Barbie A Touch of Magic Barbie Malibu Doll",
+    price: 41,
+    images: ["images/barbiemagic.jpg","images/barbiemagic1.jpg","images/barbiemagic2.jpg","images/barbiemagic3.jpg","images/barbiemagic4.jpg"],
+    link: "product.html?id=12"
+  },
+  {
+    title: "Barbie Dream Closet Toy Playset with Fashion Doll",
+    price: 41,
+    images: ["images/dreamcloset.jpg","images/dreamcloset1.jpg","images/dreamcloset2.jpg","images/dreamcloset3.jpg","images/dreamcloset4.jpg","images/dreamcloset5.jpg"],
+    link: "product.html?id=13"
+  },
+  {
+    title: "Mattel Barbie Dream Boat Playset",
+    price: 41,
+    images: ["images/dreamboat.jpg","images/dreamboat1.jpg","images/dreamboat2.jpg","images/dreamboat3.jpg","images/dreamboat4.jpg"],
+    link: "product.html?id=15"
+  },
+  {
+    title: "Our Generation Twinkle 46cm Tooth Fairy Doll",
+    price: 41,
+    images: ["images/toothfairy.jpg","images/toothfairy1.jpg","images/toothfairy2.jpg"],
+    link: "product.html?id=16"
+  },
+  {
+    title: "332 Piece Make It Real Disney Princess Castle DIY Bracelet Kit",
+    price: 41,
+    images: ["images/disneyprincessbracelet.jpg","images/disneyprincessbracelet1.jpg","images/disneyprincessbracelet2.jpg","images/disneyprincessbracelet3.jpg","images/disneyprincessbracelet4.jpg"],
+    link: "product.html?id=17"
+  },
+  {
+    title: "Pink Cherry Backpack",
+    price: 41,
+    images: ["images/pinkcherrybackpack.jpg","images/pinkcherrybackpack1.jpg","images/pinkcherrybackpack2.jpg","images/pinkcherrybackpack3.jpg","images/pinkcherrybackpack4.jpg","images/pinkcherrybackpack5.jpg"],
+    link: "product.html?id=23"
+  },
+  {
+    title: "Cherry Insulated Cold box",
+    price: 41,
+    images: ["images/cherrycoldbox.jpg","images/cherrycoldbox1.jpg","images/cherrycoldbox2.jpg"],
+    link: "product.html?id=24"
+  },
+  {
+    title: "Cherry Bow Insulated Cold Box",
+    price: 41,
+    images: ["images/cherrybowcoldbox.jpg","images/cherrybowcoldbox1.jpg"],
+    link: "product.html?id=25"
+  },
+  {
+    title: "1.18ml Cherry and Bow Tumbler with Handle",
+    price: 41,
+    images: ["images/cherrytumbler.jpg","images/cherrytumbler1.jpg","images/cherrytumbler2.jpg","images/cherrytumbler3.jpg"],
+    link: "product.html?id=26"
+  },
+  {
+    title: "Heart Barrel Pencil Case",
+    price: 41,
+    images: ["images/heartpencilcase.jpg","images/heartpencilcase1.jpg","images/heartpencilcase2.jpg"],
+    link: "product.html?id=27"
+  },
+  {
+    title: "Square Hearts Insulated Cold Box",
+    price: 41,
+    images: ["images/squareheartscoldbox.jpg","images/sqaureheartscoldbox1.jpg","images/squareheartscoldbox2.jpg"],
+    link: "product.html?id=28"
+  },
+  {
+    title: "3 Piece Marble Backpack Set",
+    price: 41,
+    images: ["images/marblebackpack.jpg","images/marblebackpack1.jpg","images/marblebackpack2.jpg","images/marblebackpack3.jpg","images/marblebackpack4.jpg"],
+    link: "product.html?id=29"
+  },
+  {
+    title: "3 Piece Juniour Backpack with Popit Keychain-Dinosaur",
+    price: 41,
+    images: ["images/dinobackpack.jpg","images/dinobackpack1.jpg","images/dinobackpack2.jpg","images/dinobackpack3.jpg","images/dinobackpack4.jpg"],
+    link: "product.html?id=30"
+  },
+  {
+    title: "How To Train Your Dragon: Dragon Volcano Island Titan Red Death Figure",
+    price: 41,
+    images: ["images/dragon.jpg","images/dragon1.jpg","images/dragon2.jpg","images/dragon3.jpg"],
+    link: "product.html?id=31"
+  },
+  {
+    title: "Mini Blocks Vehicle Series: Sports Car",
+    price: 41,
+    images: ["images/miniankocars.jpg","images/miniankocars1.jpg","images/miniankocars2.jpg"],
+    link: "product.html?id=32"
+  },
+  {
+    title: "Monster Jam Mini Jams Cobra's Crazy Escape",
+    price: 41,
+    images: ["images/minimonstercobra.jpg","images/minimonstercobra1.jpg","images/minimonstercobra2.jpg"],
+    link: "product.html?id=33"
+  },
+  {
+    title: "43cm Disney Ultimate Angel Interactive Feature Plush Toy",
+    price: 41,
+    images: ["images/stitchangel.jpg","images/stitchangel1.jpg","images/stitchangel2.jpg","images/stitchangel3.jpg","images/stitchangel4.jpg"],
+    link: "product.html?id=34"
+  }
+];
+
+let currentIndexes = Array(PRODUCTS.length).fill(0);
+let activeProduct = 0;
+let cart = [];
+let wishlist = [];
+
+// RENDER PRODUCTS
+function render() {
+  const products = document.getElementById("products");
+  products.innerHTML = PRODUCTS.map((p,i)=>`
+    <div class="card">
+      <div class="image-wrap">
+        <img class="main-img" id="main-${i}" src="${p.images[0]}" alt="${p.title}" tabindex="0" onclick="openLightbox(${i})" onkeydown="if(event.key==='Enter'){openLightbox(${i})}" />
+        <div class="img-arrow left" onclick="changeImage(${i},-1)">‹</div>
+        <div class="img-arrow right" onclick="changeImage(${i},1)">›</div>
+      </div>
+      <div class="thumbs">
+        ${p.images.map((img,j)=>`<img src="${img}" alt="Thumbnail ${j+1}" onclick="setImage(${i},${j})">`).join('')}
+      </div>
+      <a class="product-link" href="${p.link}">${p.title}</a>
+      <div class="price">$${p.price}</div>
+      <div class="action-buttons">
+        <button class="add-cart" onclick="addToCart(${i})">Add to Cart 🛒</button>
+        <button class="wishlist" onclick="addToWishlist(${i})">❤️ Wishlist</button>
+      </div>
+    </div>
+  `).join('');
+}
+render();
+
+// IMAGE FUNCTIONS
+function changeImage(i,d){
+  currentIndexes[i]=(currentIndexes[i]+d+PRODUCTS[i].images.length)%PRODUCTS[i].images.length;
+  document.getElementById(`main-${i}`).src = PRODUCTS[i].images[currentIndexes[i]];
+}
+function setImage(i,j){
+  currentIndexes[i]=j;
+  document.getElementById(`main-${i}`).src=PRODUCTS[i].images[j];
+}
+
+// LIGHTBOX
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+function openLightbox(i){
+  activeProduct=i;
+  lightboxImg.src = PRODUCTS[i].images[currentIndexes[i]];
+  lightbox.style.display="flex";
+}
+function lightboxChange(d){
+  changeImage(activeProduct,d);
+  lightboxImg.src = PRODUCTS[activeProduct].images[currentIndexes[activeProduct]];
+}
+document.addEventListener("keydown", e=>{
+  if(lightbox.style.display==="flex"){
+    if(e.key==="ArrowRight") lightboxChange(1);
+    if(e.key==="ArrowLeft") lightboxChange(-1);
+    if(e.key==="Escape") lightbox.style.display="none";
+  }
+});
+
+// CAROUSEL
+let s=0;
+setInterval(()=>{
+  const slides=document.querySelectorAll(".carousel-slide");
+  slides.forEach(sl=>sl.classList.remove("active"));
+  slides[(s=(s+1)%slides.length)].classList.add("active");
+},4000);
+
+// CART & WISHLIST
+function updateCounts(){
+  document.getElementById("cartCount").textContent = cart.reduce((a,c)=>a+c.qty,0);
+  document.getElementById("wishlistCount").textContent = wishlist.reduce((a,c)=>a+c.qty,0);
+}
+function addToCart(i){
+  let item = cart.find(c=>c.index===i);
+  if(item) item.qty++; else cart.push({index:i,qty:1});
+  updateCounts();
+  renderCart();
+}
+function addToWishlist(i){
+  let item = wishlist.find(c=>c.index===i);
+  if(item) item.qty++; else wishlist.push({index:i,qty:1});
+  updateCounts();
+  renderWishlist();
+}
+function renderCart(){
+  const ul=document.getElementById("cartList");
+  ul.innerHTML=cart.map(c=>{
+    const p=PRODUCTS[c.index];
+    return `<li>
+      <img src="${p.images[0]}" alt="${p.title}">
+      ${p.title} - $${p.price}
+      <div class="qty-controls">
+        <button onclick="changeQty('cart',${c.index},-1)">-</button>
+        <span>${c.qty}</span>
+        <button onclick="changeQty('cart',${c.index},1)">+</button>
+      </div>
+    </li>`;
+  }).join('');
+  document.getElementById("cartSubtotal").textContent=`$${cart.reduce((a,c)=>a+PRODUCTS[c.index].price*c.qty,0)}`;
+}
+function renderWishlist(){
+  const ul=document.getElementById("wishlistList");
+  ul.innerHTML=wishlist.map(c=>{
+    const p=PRODUCTS[c.index];
+    return `<li>
+      <img src="${p.images[0]}" alt="${p.title}">
+      ${p.title} - $${p.price}
+      <div class="qty-controls">
+        <button onclick="changeQty('wishlist',${c.index},-1)">-</button>
+        <span>${c.qty}</span>
+        <button onclick="changeQty('wishlist',${c.index},1)">+</button>
+      </div>
+    </li>`;
+  }).join('');
+}
+function changeQty(type,i,d){
+  let arr = type==='cart'?cart:wishlist;
+  let item = arr.find(c=>c.index===i);
+  if(!item) return;
+  item.qty+=d;
+  if(item.qty<=0) arr.splice(arr.indexOf(item),1);
+  updateCounts();
+  type==='cart'?renderCart():renderWishlist();
+}
+
+// MODALS
+document.getElementById("cartBtn").onclick=()=>{document.getElementById("cartModal").style.display="flex";}
+document.getElementById("wishlistBtn").onclick=()=>{document.getElementById("wishlistModal").style.display="flex";}
+function closeModal(id){document.getElementById(id).style.display="none";}
+
+// POPUP
+const popup=document.getElementById("popup");
+const closePopup=document.getElementById("closePopup");
+setTimeout(()=>{popup.style.display="flex"},1500);
+closePopup.onclick=()=>{popup.style.display="none"};
+
+// INITIAL COUNT
+updateCounts();
+</script>
+
+</body>
+</html> 

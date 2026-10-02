@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Barbie Dreamtopia Twinkle Lights Doll | Little Swiggles</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --accent1:#ffeb3b;
+  --accent2:#ff69b4;
+  --shadow:0 6px 20px rgba(12,22,45,.12);
+  --surface:#fff5f8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:var(--surface);color:#222;}
+
+header{
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  padding:20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  color:#fff;
+}
+header h1{font-family:'Pacifico',cursive;font-size:28px;margin-left:20px;}
+
+.header-icons{
+  margin-right:20px;
+  display:flex;
+  gap:15px;
+  align-items:center;
+}
+.header-icons div{
+  position:relative;
+  cursor:pointer;
+  font-size:24px;
+}
+.header-icons span{
+  position:absolute;
+  top:-10px;
+  right:-12px;
+  background:red;
+  color:white;
+  font-size:12px;
+  padding:2px 6px;
+  border-radius:50%;
+}
+
+.container{
+  max-width:1200px;
+  margin:40px auto;
+  padding:20px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
+}
+
+.gallery{
+  background:#fff;
+  padding:20px;
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.main-img{
+  width:100%;
+  height:400px;
+  object-fit:contain;
+  cursor:pointer;
+}
+
+.img-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(0,0,0,.6);
+  color:#fff;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  font-size:20px;
+  z-index:1;
+}
+.img-arrow.left{left:10px}
+.img-arrow.right{right:10px}
+
+.thumbs{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+  overflow-x:auto;
+  padding-bottom:5px;
+}
+.thumbs img{
+  width:80px;
+  height:80px;
+  object-fit:contain;
+  border:1px solid #ddd;
+  border-radius:10px;
+  cursor:pointer;
+  flex-shrink:0;
+}
+
+.details{
+  background:#fff;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  overflow-y:auto;
+}
+
+.details h2{margin-bottom:10px;}
+
+.price{
+  font-size:24px;
+  font-weight:bold;
+  color:#ff1493;
+  margin-bottom:20px;
+}
+
+button{
+  padding:12px 24px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  margin-bottom:20px;
+}
+
+.section{margin-top:25px;}
+.section h3{margin-bottom:10px;color:#ff1493;}
+ul{margin-left:20px;}
+
+.warning{
+  background:#fff0f5;
+  padding:15px;
+  border-radius:12px;
+  margin-top:15px;
+  color:#b00020;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Little Swiggles</h1>
+  <div class="header-icons">
+    <div id="wishlistIcon">💖 <span id="wishlistCount">0</span></div>
+    <div id="cartIcon">🛒 <span id="cartCount">0</span></div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="gallery">
+    <div style="position:relative;width:100%;">
+      <img id="mainImage" class="main-img" />
+      <div class="img-arrow left" onclick="changeImage(-1)">‹</div>
+      <div class="img-arrow right" onclick="changeImage(1)">›</div>
+    </div>
+    <div class="thumbs" id="thumbs"></div>
+  </div>
+
+  <div class="details">
+    <h2 id="productTitle"></h2>
+    <div class="price" id="productPrice"></div>
+    <button id="addCartBtn">Add to Cart 🛒</button>
+    <button id="addWishlistBtn">Add to Wishlist 💖</button>
+
+    <div class="section">
+      <h3>Product Features</h3>
+      <ul id="featuresList"></ul>
+    </div>
+
+    <div class="section">
+      <h3>Product Details</h3>
+      <p id="productDetails" style="white-space:pre-line"></p>
+    </div>
+
+    <div class="section">
+      <h3>Materials and Composition</h3>
+      <p id="productMaterials"></p>
+    </div>
+
+    <div class="warning" id="productExtra"></div>
+
+  </div>
+</div>
+
+<script>
+
+const PRODUCTS = [
+
+{
+  id: 0,
+  title: "Barbie Dreamtopia Twinkle Lights Doll",
+  price: 41,
+  images: [
+    "images/barbiedreamtopia.jpg",
+    "images/barbiedreamtopia2.jpg",
+    "images/barbiedreamtopia3.jpg"
+  ],
+  features: [
+    "Everything is more magical at the ballet!",
+    "***** hair styled in a bun with tiara",
+    "5 different light shows",
+    "Articulated body for posing",
+    "Requires 3 x LR44 batteries",
+    "Suitable for ages: 3+ years."
+  ],
+  details: "Watch Barbie doll light up as she dances! These beautiful ballerinas have a magical light-up feature.",
+  materials: "Plastic",
+  extra: "WARNING: CHOKING HAZARD - Small Parts. Not suitable for children under 3 years."
+},
+
+{
+  id: 1,
+  title: "Mattel Barbie Fun & Fancy Doll with Extra-Long Hair",
+  price: 41,
+  images: [
+    "images/Mattel Barbie Fun & Fancy Doll with Extra-Long Hair.jpg",
+    "images/Mattel Barbie Fun & Fancy Doll with Extra-Long Hair1.jpg",
+    "images/Mattel Barbie Fun & Fancy Doll with Extra-Long Hair2.jpg"
+  ],
+  features: [
+    "Devoted to all things hair, the Barbie Fun & Fancy Hair collection showcases glam dolls with colourful hairstyles -- plus, 10 included fashion and styling pieces for endless customization!",
+    "Barbie doll has 21.6cm of extra-long playable ***** hair with fantasy pops of colour for extra-fun hairstyles!",
+    "The fashion doll wears a colourful dress with cat print and big bows, accessorized with white boots. She comes with a second look for a style transformation -- a silver metallic dress and purple heels! Styling accessories include a clip with rainbow hair extension, cat ear headband, set of hair ties and one set of hair clips!",
+    "Once kids have created their hairstyles, they can comb out Barbie doll's tresses and create a new look -- from colourful updos to layered braids, the possibilities are endless and hours of fun!",
+    "WARNING: Warning. Not suitable for children under 36 months. Long cord. Strangulation hazard., Warning. Not suitable for children under 36 months. Small parts.",
+    "Product Dimensions: 7.3cm(W) x 3.4cm(D) x 29.8cm(H) x 0.35kg approx",
+    "Suitable for ages: 3+ years."
+  ],
+  details: "The Barbie Fun & Fancy collection features cute dolls modelling colourful hairstyles and glam looks! Each doll has 21.6cm of extra-long playable hair and includes 10 total fashion and styling accessories. Kids will love creating different hairstyles and exploring outfit possibilities!\n\nEach sold separately, subject to availability. Dolls cannot stand alone. Colours and decorations may vary.\n\nSuitable for ages: 3+ years.",
+  materials: "B JCT72 BARBIE FUN & FANCY DOLL",
+  extra: "WARNING: CHOKING HAZARD - Small Parts. Not for children under 3 yrs."
+},
+
+{
+  id: 2,
+  title: "Make It Real Just Beyoutiful Mega Cosmetic Set",
+  price: 41,
+  images: [
+    "images/makeitrealbeyoutiful.jpg",
+    "images/makeitrealbeyoutiful1.jpg",
+    "images/makeitrealbeyoutiful2.jpg"
+  ],
+  features: [
+    "Contains: 3 nail polish bottles, 3 nail wrap sheets, 2 scented lip gloss rings, 1 vanilla-scented lip gloss wand, 2 eyeshadow palettes, 2 eyeshadow applicators, 2 body glitter pots, 3 nail files, 4 nail sticker sheets, 1 nail gem sheet, 4 hair clips, 1 charm keychain, 1 instruction sheet.",
+    "Product Dimensions: 53.9cm(W) x 5.2cm(D) x 27.5cm(H) x 0.48kg approx",
+    "Pack Dimensions: 34.5cm(L) x 55.5cm(W) x 29.5cm(H) x 3.55kg approx",
+    "Suitable for ages: 8+ years."
+  ],
+  details: "Make It Real Just Beyoutiful Mega Cosmetic Set\n\nThe possibilities are endless with this mega cosmetic set! Complete with 6 themed collections, there’s a style for every mood or OOTD. Includes everything needed to create a matching mani-pedi. This set includes 4 hair clips and a charm keychain for extra fun accessorizing.\n\nSuitable for ages: 8+ years.",
+  materials: "Paper 27.23%, PET 39.51%, PS 9.92%, Sponge 3.36%, Glass 2.03%, PP 8.84%, Eyeshadow 2.59%, Lip gloss 0.47%, Body glitter 1.87%, Nail polish 2.15%, Aluminum 2.03%",
+  extra: "WARNING! CHOKING HAZARD – Small parts. Not suitable for children under 3 years."
+},
+
+{
+  id: 3,
+  title: "Sparkle Girlz Styling Princess",
+  price: 41,
+  images: [
+    "images/sparklegirlz.jpg",
+    "images/sparklegirlz1.jpg",
+    "images/sparklegirlz3.jpg"
+  ],
+  features: [
+    "Sparkle Girlz Princess Hair Styling Head is a 14-piece set that includes everything you need for a glam look!",
+    "This princess set has 10 inches of fully rooted, thick, dark locks that are ready to be styled and accessorized.",
+    "Brush her curls with her royal brush and use the princess heart clips to secure or accent your style of choice.",
+    "All accessories are shareable and wearable, meaning you can even give yourself a gorgeous hairstyle!"
+  ],
+  details: "Sparkle Girlz Princess Hair Styling Head is a 14-piece set that includes everything you need for a glam look!",
+  materials: "",
+  extra: ""
+},
+
+{
+  id: 4,
+  title: "Mattel Barbie Mysteries: Beach Detectives Barbie Malibu Doll Cotton Candy Game Playset",
+  price: 41,
+  images: [
+    "images/mattelbeachdetectives.jpg",
+    "images/mattelbeachdetectives1.jpg",
+    "images/mattelbeachdetectives3.jpg"
+  ],
+  features: [
+    "Suitable for ages: 3+ years",
+    "Dimensions/Size: 30.8cm (H) x 27.95cm (W) x 6.18cm (D)",
+    "Imagination can create all kinds of beachside stories with this Barbie Mysteries: Beach Detectives doll and game booth playset!",
+    "More than 20 accessories include a working game with tokens and prizes -- kids can drop a token in to see if they're a winner, then pick a piggie, tiger or pinwheel!",
+    "Next, swirl up fun at the cotton candy machine -- there are 3 sticks and 3 cotton candy colours to choose from!",
+    "Additional storytelling pieces include game tickets, snacks and stickers that kids can use to make the booth their own.",
+    "Barbie 'Malibu' fashion doll is ready for a day on the boardwalk in a heart-print dress and white sneakers that fans will recognise from the film.",
+    "Packed with storytelling fun, Barbie Mysteries: Beach Detectives dolls and toys make a great gift for kids and fans ages 3 and older!"
+  ],
+  details: "Imaginations can dream up all kinds of beachside stories with this Barbie Mysteries: Beach Detectives doll and game booth playset featuring 20 accessories! Inspired by the hit series, this playset transports fans to a beach boardwalk with a game booth and cotton candy machine. Kids can drop a token into the game and help Malibu doll pick a prize -- there’s a pig, tiger and pin wheel -- then swirl up fun with the cotton candy machine! Barbie 'Malibu' doll is dressed for fun in the sun in a casual heart-print dress and white sneakers. Kids and fans ages 3 years and older will love recreating scenes and making up their own beach adventures! Doll cannot stand alone. Colours and decorations may vary.",
+  materials: "Plastic",
+  extra: "Additional Information\n\nWARNING: CHOKING HAZARD - Small parts. Not for children under 3 years."
+},
+
+{
+  id: 5,
+  title: "Make It Real Butterfly Cosmetic Set",
+  price: 41,
+  images: [
+    "images/butterflyset.jpg",
+    "images/butterflyset1.jpg",
+    "images/butterflyset2.jpg"
+  ],
+  features: [
+    "Suitable for ages: 8+ years",
+    "Dimensions/Size: 30cm (H) x 41cm (W) x 5cm (D)",
+    "1 butterfly case",
+    "5 eyeshadow colors",
+    "4 solid lip gloss colors",
+    "2 blush colors",
+    "2 body shimmer colors",
+    "1 lip gloss tube",
+    "1 nail polish bottle",
+    "1 nail file",
+    "1 sheet of nail rhinestones",
+    "2 lip gloss applicators",
+    "2 eyeshadow applicators",
+    "1 cosmetic brush"
+  ],
+  details: "This butterfly cosmetic kit includes everything needed to create gorgeous makeup looks with fluttering flair! All components store neatly in the precious butterfly case for easy use. Feel glamorous when styling with the included lip gloss, eye shadow, blush, body shimmer, nail polish, and nail gems. Nail file and applicators included. Close the butterfly wings for a standing butterfly display and enjoy! All cosmetics are safety tested for kids ages 8+. Mix and match colors to try out different styles! Perfect for tweens looking to switch up their style and take their makeup on the go. A great gift idea for stylish tweens, no matter the occasion.",
+  materials: "Acrylonitrile butadiene styrene (ABS), Polyethylene terephthalate (PET), polypropylene (PP), paper, aluminium, acrylic, nylon and cotton",
+  extra: "Additional Information\n\nWARNING: CHOKING HAZARD — Small parts. Not suitable for children under 3 years.\n\nCAUTION: External use only. Do not eat or drink. Keep nail polish away from the eye or lip area. In case of an allergic reaction, stop using it immediately. In case of contact with the eyes, rinse immediately with plenty of water and seek medical advice. Please retain the packaging since it contains important information.\n\nProduct and colours may vary from those shown."
+},
+
+{
+  id: 6,
+  title: "Hot Wheels Tool Kit Truck",
+  price: 41,
+  images: [
+    "images/hotwheelstoolkit.jpg",
+    "images/hotwheelstoolkit1.jpg"
+  ],
+  features: [
+    "Play vehicle type: Car & Truck Play Vehicles",
+    "Brand: Mattel",
+    "Features: Lights and Sounds",
+    "Age range: 3 Years",
+    "Power type: Battery"
+  ],
+  details: "Hot Wheels Tool Kit Truck with lights and sounds.",
+  materials: "",
+  extra: ""
+},
+
+{
+  id: 7,
+  title: "Fisher Price 25 Key Lion Piano",
+  price: 41,
+  images: [
+    "images/Fisherpricelionpiano.jpg",
+    "images/Fisherpricelionpiano1.jpg",
+    "images/Fisherpricelionpiano2.jpg",
+    "images/Fisherpricelionpiano3.jpg",
+    "images/Fisherpricelionpiano4.jpg"
+  ],
+  features: [
+    "Brand Name: Fisher-Price",
+    "Age Range Description: 2 years +",
+    "Instrument: Piano",
+    "UPC: 731398925162",
+    "Global Trade Identification Number: 00731398925162",
+    "Included Components: 1 x Lion Piano",
+    "Item Type Name: Fisher Price 25 Keys Lion Piano",
+    "Manufacturer: Kids@Play Ltd",
+    "Model Number: KFP2516",
+    "Manufacturer Part Number: KFP2516",
+    "Manufacturer recommended age: 24 months and up",
+    "Size: 13.71 cm (W) x 35.3 cm (L) x 39.37 cm (H)",
+    "Item Dimensions: 35.3 x 13.7 x 39.4 centimetres",
+    "Item Weight: 4.14 Pounds",
+    "Battery Description: AA",
+    "Number of Batteries: 3 AA batteries required (included)",
+    "Number of Keys: 25",
+    "Educational Objective: Foster imagination, creativity, self-expression, and confidence",
+    "Is Assembly Required: No",
+    "Operation Mode: Manual",
+    "Power Source: Battery Powered",
+    "Color: Yellow",
+    "Theme: Animal"
+  ],
+  details: "Fisher Price 25 Keys Lion Piano. A battery-powered children's piano designed to foster imagination, creativity, self-expression, and confidence.",
+  materials: "Plastic",
+  extra: ""
+},
+
+{
+  id: 8,
+  title: "Pour Palz XL Paint Bear",
+  price: 41,
+  images: [
+    "images/pourpalz.jpg",
+    "images/pourpalz1.jpg",
+    "images/pourpalz2.jpg",
+    "images/pourpalz3.jpg"
+  ],
+  features: [
+    "Suitable for ages: 5+ years",
+    "Includes only 1 set of Pour PalZ XL Paint Bear",
+    "Each box contains: 1 x Pour PalZ XL Bear, 1 x mixing cup, 1 x pour applicator, 1 x set of gloves, 1 x no-mess clean sheet, 1 x instruction sheet and 4 x 60mL acrylic paints",
+    "Net volume: Paints: 60mL (each) x 4"
+  ],
+  details: "Each sold separately.\n\nUnleash your imagination with the Pour PalZ XL Paint Bear — the oversized DIY paint-and-play bear that takes creativity to the next level! Standing tall and totally posable, this extra-large bear is your blank canvas for paint pouring magic. Whether you're into marbling, swirling, or colorful abstract designs, every XL Bear becomes a one-of-a-kind masterpiece.",
+  materials: "GS-G33454 POUR PALZ DIY XL PAINT BEAR 33CM",
+  extra: "Caution: Avoid contact with skin and eyes. In case of contact with eyes rinse immediately with plenty of water and seek medical advice. When using paints ensure carpets, clothes and furniture are protected. Wash hands after use.\n\nDisclaimer: Products are sold separately and come in various designs. We cannot guarantee which design you will receive as products are selected at random for online orders."
+},
+
+{
+  id: 10,
+  title: "Play-Doh Sizzlin' Grill Playset",
+  price: 41,
+  images: [
+    "images/playdohsizzlin.jpg",
+    "images/playdohsizzlin1.jpg",
+    "images/playdohsizzlin2.jpg",
+    "images/playdohsizzlin3.jpg",
+    "images/playdohsizzlin4.jpg"
+  ],
+  features: [
+    "Interactive Grill: This 74 cm (29 in) tall playset features a realistic grill with glowing lights and sizzling sound effects, requiring 3 AA batteries (not included).",
+    "Realistic Marks: Kids can create Play-Doh food and then close the grill lid to stamp pretend grill marks onto their cookout creations.",
+    "Extensive Accessories: The set includes 17 pretend kitchen accessories such as play food stampers, a decorating tool, a roller, spatula, plates, forks, and cups.",
+    "Vibrant Play-Doh: Ten 2-ounce (56 gram) cans of Play-Doh compound are included, featuring BBQ-themed colors like brown, tan, red, and yellow, plus other fun colors.",
+    "Creative Food Play: Children can imagine and create various Play-Doh foods, including burgers, hot dogs, chicken wings, and shrimp, fostering imaginative play.",
+    "Adult Assembly: The product requires adult assembly, and small parts necessary for assembly should be kept out of children's reach."
+  ],
+  details: "Create imaginative cookout meals with the Play-Doh Sizzlin' Grill Playset. Kids can make pretend food, add grill marks, and enjoy realistic lights and sizzling sound effects.",
+  materials: "Play-Doh compound and plastic accessories",
+  extra: "Adult assembly required. Keep small parts necessary for assembly out of children's reach."
+},
+
+{
+  id: 11,
+  title: "Mattel Princess Stories Fashion Doll",
+  price: 41,
+  images: [
+    "images/storiesfashiondoll.jpg",
+    "images/storiesfashiondoll1.jpg",
+    "images/storiesfashiondoll2.jpg",
+    "images/storiesfashiondoll3.jpg",
+    "images/storiesfashiondoll4.jpg"
+  ],
+  features: [
+    "Disney Princess 2-in-1 Stories fashion dolls have themed fashions and accessories for kids to play out two distinct stories for each doll!",
+    "Each easy-to-dress doll comes with two bodices that snap on and off and two skirts in pretty prints ownable to the character.",
+    "Rapunzel doll is ready for a picnic or a day making art, Cinderella doll can get ready for the ball or celebrate a birthday and Tiana doll can host her restaurant opening or attend a costume ball!",
+    "Dolls are posable and have brushable hair and tiaras, plus 8 more themed accessories to help tell each of their unique stories from beginning to end.",
+    "Fans can choose from these three beloved Princess dolls or collect them all for the ultimate in storytelling fun! Each sold separately, subject to availability.",
+    "Product Dimensions: 9.2cm(W) x 4cm(D) x 28cm(H) x 0.39kg approx",
+    "Suitable for ages: 3+ years."
+  ],
+  details: "Disney Princess 2-in-1 Stories fashion dolls and accessories are inspired by Disney fans' favourite movie moments! Each posable doll features two distinct looks, including two easy-to-use, snap-on bodices; two soft skirts; and lots of accessories and themed play pieces. It's the perfect gift for fans who want more to their stories!\n\nEach sold separately, subject to availability. Dolls cannot stand alone. Colours and decorations may vary.\n\nSuitable for ages: 3+ years.\n\nEach sold separately.",
+  materials: "B JBG08 DISNEY PRINCESS FASHION STORYTELLING DOLL ASSORTED",
+  extra: "Available in a variety of colours/designs; each sold separately. Colour/design is selected at random, so we cannot guarantee which colour/design you will receive.\n\nWARNING: CHOKING HAZARD - Small parts. Not for children under 3 years."
+},
+
+{
+  id: 12,
+  title: "Mattel Barbie A Touch of Magic Barbie Malibu Doll",
+  price: 41,
+  images: [
+    "images/barbiemagic.jpg",
+    "images/barbiemagic1.jpg",
+    "images/barbiemagic2.jpg",
+    "images/babriemagic3.jpg",
+    "images/babriemagic4.jpg"
+  ],
+  features: [
+    "Malibu wears her iconic, shimmery fairy-tale-inspired outfit from Barbie: A Touch of Magic, complete with sparkles, wings, and magical details.",
+    "She comes with 18cm of extra-long fantasy pink hair, perfect for brushing, styling, and creative hair play, plus magical styling accessories like a glitter headband, comb, and elegant hair clip for endless looks.",
+    "The set also includes two adorable pets—a tutu-wearing puppy and a sweet butterfly friend—to join the adventure.",
+    "Perfect as a magical gift for kids aged 3+, collectors, and Barbie fans, Malibu is imagination-ready for fairy tales, magical role-play, and sparkle-filled storytelling.",
+    "Each doll is sold separately and the doll cannot stand alone."
+  ],
+  details: "Barbie A Touch of Magic Barbie Malibu doll inspires fairy-tale storytelling with her shimmery outfit, extra-long fantasy hair, styling accessories, puppy, and butterfly friend.",
+  materials: "",
+  extra: "Each doll is sold separately. The doll cannot stand alone."
+},
+
+{
+  id: 13,
+  title: "Barbie Dream Closet Toy Playset with Fashion Doll",
+  price: 41,
+  images: [
+    "images/dreamcloset.jpg",
+    "images/dreamcloset1.jpg",
+    "images/dreamcloset2.jpg",
+    "images/dreamcloset3.jpg",
+    "images/dreamcloset4.jpg",
+    "images/dreamcloset5.jpg"
+  ],
+  features: [
+    "Brand: Barbie",
+    "Product line: BARBIE STYLE",
+    "Character: Barbie",
+    "Minimum recommended age: 4 years",
+    "Age range: 4 - 12 Years",
+    "Items included: Includes 1 closet, 1 doll, 3 complete looks, 8 hangers, 9 accessories, 5 pairs of shoes, 1 puppy, and 1 stool; 25+ clothes and accessories; dog bed",
+    "Piece count: 29",
+    "Theme: Fashion, Styling",
+    "Batteries required: No",
+    "Is collectible: No",
+    "Color: Multicolor",
+    "Character group: Barbie",
+    "Material: Plastic",
+    "Manufacturer: Mattel",
+    "Maximum recommended age: 12 years",
+    "Battery size: AAA",
+    "Number of batteries: 0",
+    "Dimensions: 5.50 x 6.50 x 11.02 in",
+    "Weight: 4.82 lb",
+    "Age group: Child",
+    "Global brand license: Barbie",
+    "Compatibility: Barbie",
+    "Occasion: Birthday, Christmas, Holiday, Gift",
+    "Retail packaging: Single Piece"
+  ],
+  details: "The Barbie Dream Closet playset includes a fashion doll, a closet, multiple complete looks, clothes, accessories, shoes, a puppy, a stool, and a dog bed for creative styling and storytelling.",
+  materials: "Plastic",
+  extra: ""
+},
+
+{
+  id: 9,
+  title: "Hot Wheels Roll Out Raceway Track Set", 
+  price: 41,
+  images: [
+    "images/Hotwheelsrollout.jpg",
+    "images/Hotwheelsrollout1.jpg",
+    "images/Hotwheelsrollout2.jpg",
+    "images/Hotwheelsrollout3.jpg",
+    "images/Hotwheelsrollout4.jpg"
+  ],
+  features: [
+    "Brand Name: Hot Wheels",
+    "Model Name: GYX11",
+    "Age Range Description: Kid",
+    "Included Components: Includes 1 Hot Wheels Roll Out Raceway Track Set with fair starter and finish line, and 1 1:64 scale Hot Wheels vehicle.",
+    "Sub Brand: EA",
+    "Model Number: GYX11",
+    "Manufacturer Warranty Description: 2-year guarantee",
+    "UPC: 194735108022 887961982015",
+    "Number of Items: 1",
+    "Number of Packs: 1",
+    "Set Name: Hot Wheels Roll Out Raceway",
+    "Unit Count: 24 Count",
+    "Item Type Name: Vehicle Playsets",
+    "Manufacturer: Mattel",
+    "Minimum Age Recommendation: 4",
+    "Model Year: 2021",
+    "Manufacturer Part Number: GYX11",
+    "Best Sellers Rank: #9,197 in Toys & Games; #6 in Slot Car Vehicle Race Sets",
+    "ASIN: B08ZWMPCH2",
+    "Customer Reviews: 4.8 out of 5 stars (3,204)",
+    "Manufacturer recommended age: 4 years and up",
+    "Power Source: Battery Powered",
+    "Scale: 1:64",
+    "Battery Description: Alkaline",
+    "Educational Objective: Hand-Eye Coordination, Motor Skill",
+    "Other Special Features: Portable",
+    "Compatibility Options: Hot Wheels Toy Vehicle Sets",
+    "Number of Players: 5",
+    "Power Plug Type: No Plug",
+    "Control Method: Remote",
+    "Control Type: Manual/Hand Control",
+    "Controller Type: Manual/Hand Control",
+    "Fit Type: Freestanding",
+    "Operation Mode: Manual",
+    "Skill Level: Beginner",
+    "Color: Multicolor",
+    "Theme: Cartoon",
+    "Collection Name: Hot Wheels Toy Vehicle Sets",
+    "Pattern: Multicoloured",
+    "Product Style: Portable, Box",
+    "Item Shape: Irregular shape",
+    "Occasion: Birthday, Children's Day",
+    "CPSIA Cautionary Statement: Choking Hazard - Small Parts, No Warning Applicable",
+    "Assembly Time: 5 minutes",
+    "Assembly Instructions Description: Instructions are enclosed with the product and provide clear steps to assemble the track set in 5 minutes."
+  ],
+  details: "Hot Wheels Roll Out Raceway Track Set with a fair starter and finish line, plus one 1:64 scale Hot Wheels vehicle. The portable track set helps develop hand-eye coordination and motor skills.",
+  materials: "Material Type: Plastic\nBase Material: Plastic\nFrame Material Type: Plastic\nOuter Material: Polyester",
+  extra: ""
+},
+
+{
+  id: 15,
+  title: "Mattel Barbie Dream Boat Playset",
+  price: 41,
+  images: [
+    "images/dreamboat.jpg",
+    "images/dreamboat1.jpg",
+    "images/dreamboat2.jpg",
+    "images/dreamboat3.jpg",
+    "images/dreamboat4.jpg"
+  ],
+  features: [
+    "Have adventures on the high sea with this dreamy Barbie® boat! With 20+ pieces and six different play areas, including a pool and slide, the Barbie® Dream Boat™ playset is made for ocean-themed fun. Plus, at three feet wide and one foot tall, there is plenty of room for Barbie® doll to invite her friends and have some fun in the sun! Doll not included. Colors and decorations may vary.",
+    "Make waves with the Barbie® Dream Boat™! This playset is decked out with premium details like a pool, slide, two different transformations, and so much more.",
+    "Barbie® doll can climb to the top deck to steer the boat and relax in the sun, then slide down into the pool! Kids can even remove the top deck for easy play access. Doll not included.",
+    "Six play areas include a bathroom, sun deck, pool and slide, bedroom, kitchen and living room. Transform the living room and kitchen into a bedroom and bathroom in just a few seconds!",
+    "This Barbie® boat comes with 20+ pieces! There are water-themed accessories like fins and a snorkel, as well as fun extras like an underwater camera, food, drinks and even a boombox.",
+    "A puppy and dolphin make great animal friends to accompany Barbie® doll on her high-sea adventures!",
+    "Take to the sea in style with the Barbie® Dream Boat™! It’s the perfect gift for kids ages 3 years old and up.",
+    "What's in the Box: Includes 1 Barbie® Dream Boat™ with slide and assorted accessories. Colors and decorations may vary.",
+    "Ages 3Y+."
+  ],
+  details: "Have adventures on the high sea with the Barbie Dream Boat playset, featuring six play areas, a pool, a slide, transformations, 20+ accessories, a puppy, and a dolphin. Doll not included.",
+  materials: "",
+  extra: "Doll not included. Colors and decorations may vary."
+},
+
+{
+  id: 16,
+  title: "Our Generation Twinkle 46cm Tooth Fairy Doll",
+  price: 41,
+  images: [
+    "images/toothfairy.jpg",
+    "images/toothfairy1.jpg",
+    "images/toothfairy2.jpg"
+  ],
+  features: [
+    "46cm Tooth Fairy Doll: Dream up magical tooth fairy stories with Our Generation doll Twinkle!",
+    "Detailed Features: Lifelike blue eyes that open and close with long, sparkly ***** hair that’s fun to style!",
+    "Easy to Play: Huggable soft body; neck, arms, and legs rotate to easily change outfits and cast spells with the wand!",
+    "Tooth Fairy Box: Holds a child’s lost baby tooth for safekeeping until Twinkle pays a visit!",
+    "Includes: Doll, fairy dress with a shimmer overlay, fairy wings, crown, pair of undies, shoes, tooth fairy box, star wand, piggy bank, 3 coins, and lost tooth certificate.",
+    "Mix & Match: Clothing has easy-open closures to quickly put on and remove; compatible with most 46cm dolls, outfits, and accessories.",
+    "Recommended Age: Suggested for kids ages 3+ (small parts)."
+  ],
+  details: "Our Generation Twinkle is a 46cm tooth fairy doll with a soft body, styling-friendly hair, fairy accessories, a tooth fairy box, and storytelling pieces.",
+  materials: "",
+  extra: "Recommended for ages 3+. Small parts."
+},
+
+{
+  id: 17,
+  title: "332 Piece Make It Real Disney Princess Castle DIY Bracelet Kit",
+  price: 41,
+  images: [
+    "images/disneyprincessbracelet.jpg",
+    "images/disneyprincessbracelet1.jpg",
+    "images/disneyprincessbracelet2.jpg",
+    "images/disneyprincessbracelet3.jpg",
+    "images/disneyprincessbracelet4.jpg"
+  ],
+  features: [
+    "Disney Princess Castle Style DIY Bracelet Kit: Bring Disney Princess dreams to life with this complete jewelry kit!",
+    "Make 12 elegant bracelets with the included exclusive Disney Princess charms.",
+    "Discover the unique stories of princesses Ariel, Belle, Jasmine, and Cinderella in the included storybook, and meet the funny friends that help them along their journeys.",
+    "Everything is included for tweens to start crafting right away, from cord to assorted beads and exclusive Disney Princess charms.",
+    "Encourage self-expression with this complete DIY crafting set. It makes a great gift for creative tweens for birthdays, holidays, or just because.",
+    "Perfect for ages 6+.",
+    "What's in the box: Cords, assorted beads, exclusive Disney Princess charms."
+  ],
+  details: "Create Disney Princess-inspired bracelets with this 332-piece DIY jewelry kit, including cords, assorted beads, exclusive charms, and a storybook featuring Ariel, Belle, Jasmine, and Cinderella.",
+  materials: "",
+  extra: "Recommended for ages 6+."
+},
+
+{
+  id: 23,
+  title: "Pink Cherry Backpack",
+  price: 41,
+  images: [
+    "images/pinkcherrybackpack.jpg",
+    "images/pinkcherrybackpack1.jpg",
+    "images/pinkcherrybackpack2.jpg",
+    "images/pinkcherrybackpack3.jpg",
+    "images/pinkcherrybackpack4.jpg",
+    "images/pinkcherrybackpack5.jpg"
+  ],
+  features: [
+    "Accessories not included",
+    "Dimensions/Size: 46cm (H) x 33cm (W) x 18cm (D)",
+    "Colour: Pink",
+    "Cherries print",
+    "2 main compartments",
+    "1 large front zippered pocket",
+    "1 side pocket",
+    "Adjustable curved padded shoulder straps",
+    "Padded back panel",
+    "Carry loop",
+    "Laptop sleeve"
+  ],
+  details: "Brighten up every day with this delightful youth backpack, featuring a sweet cherry print and a lovely pink colour. Designed for all-day comfort and practicality, it has spacious compartments to keep school books, snacks and a laptop safe and organised. The cushioned shoulder straps and padded back let your child carry their essentials with ease, whether they're off to lessons, a playdate or an afternoon of exploring. Add a pop of playful style to their daily routine and make every adventure a little more cheerful, all while keeping their favourite things right at hand. Give your child a backpack they'll love to wear wherever they go.",
+  materials: "YOUTH BACKPACK CHERRIES",
+  extra: "Additional Information\n\nCare instructions: Clean according to given instructions."
+},
+
+{
+  id: 24,
+  title: "Cherry Insulated Cold box",
+  price: 41,
+  images: [
+    "images/cherrycoldbox.jpg",
+    "images/cherrycoldbox1.jpg",
+    "images/cherrycoldbox2.jpg"
+  ],
+  features: [
+    "Dimensions/Size: 25.5cm (H) x 15cm (W) x 9.5cm (D)",
+    "Cherry print",
+    "Top carry handle",
+    "Easy clean PEVA lining",
+    "Keeps food hot or cold for longer",
+    "Insulated"
+  ],
+  details: "Turn every picnic or adventure into a delight with the Cherry Insulated Cold Box. Its outstanding insulation keeps your favourite snacks and drinks chilled just the way you like them, while the playful cherry print adds a splash of personality to your outings. Built to handle daily journeys, this cold box features a handy carry handle for easy lifting and an easy-clean PEVA lining to make tidying up a breeze. Whether you are planning a fun day outdoors or want to keep treats cool every day, this box delivers reliable temperature control and cheerful style. Bring along a bit of charm and enjoy cool refreshments wherever you go. Ready for your next adventure? Make this cheerful cold box your trusty companion.",
+  materials: "Shell: Polyester\nFilling: Polyethylene (PE)\nLining: Polyethylene Vinyl Acetate (PEVA)",
+  extra: "Additional Information\n\nCare instructions: Clean according to given instructions."
+},
+
+{
+  id: 25,
+  title: "Cherry Bow Insulated Cold Box",
+  price: 41,
+  images: [
+    "images/cherrybowcoldbox.jpg",
+    "images/cherrybowcoldbox1.jpg"
+  ],
+  features: [
+    "Dimensions/Size: 20cm (H) x 22cm (W) x 14cm (D)",
+    "All over cherry and bow print",
+    "Easy clean polyethylene vinyl acetate (PEVA) lining",
+    "Helps keep food hot or cold for longer",
+    "Top carry handle",
+    "Zip closure"
+  ],
+  details: "Add a cheerful touch to your routine with the Cherry Bow Insulated Top Loader Lunch Bag. Boasting a lively cherry and bow pattern, this bag brightens up mealtimes, making every lunch something to look forward to. The handy top handle makes it simple to carry, whether you're heading to your workplace, school, or setting out for a fun outing. Well-insulated inside, it helps keep your favourite meals and snacks fresh and enjoyable until you're ready to eat. Make mealtimes a moment of joy—choose this stylish and practical companion for all your on-the-go adventures.",
+  materials: "Shell: Polyester\nFilling: Polyethylene (PE)\nLining: Polyethylene vinyl acetate (PEVA)",
+  extra: "Additional Information\n\nCare instructions: Clean according to given instructions."
+},
+
+{
+  id: 26,
+  title: "1.18ml Cherry and Bow Tumbler with Handle",
+  price: 41,
+  images: [
+    "images/cherrytumbler.jpg",
+    "images/cherrytumbler1.jpg",
+    "images/cherrytumbler2.jpg",
+    "images/cherrytumbler3.jpg"
+  ],
+  features: [
+    "Capacity: 1.18 litres",
+    "Dimensions/Size: 31.5cm (H) x 14.5cm (W) x 11cm (D)",
+    "All over cherry and bow print",
+    "Double wall stainless steel",
+    "Keeps hot or cold up to 4 hours",
+    "No condensation",
+    "Features a handle",
+    "Jumbo size"
+  ],
+  details: "Bring a splash of personality to your routine with this jumbo tumbler, decked out in a cheerful cherry and bow design. Perfect for those long days at work or relaxing at home, it holds plenty of your favourite drink, cutting down on trips for a refill. The easy-grip handle makes it simple to carry wherever you go, and the clever double wall stainless steel construction ensures your beverage stays hot or cold far longer than ordinary cups. Plus, you'll never have to worry about messy drips on your table. Brighten your beverage moments and bring home this delightful tumbler today!",
+  materials: "Body: Stainless steel\nLid: Polypropylene (PP), silicone and acrylonitrile styrene (AS)\nStraw: Polypropylene (PP)",
+  extra: "Additional Information\n\nNot suitable for dishwasher, microwave or freezer\nCare instructions: Clean according to given instructions\nWarning: Not suitable for children under 8 years. Follow usage instructions carefully."
+},
+
+{
+  id: 27,
+  title: "Heart Barrel Pencil Case",
+  price: 41,
+  images: [
+    "images/heartpencilcase.jpg",
+    "images/heartpencilcase1.jpg",
+    "images/heartpencilcase2.jpg"
+  ],
+  features: [
+    "Dimensions/Size: 7cm (H) x 20cm (W) x 6.5cm (D)",
+    "Colour: Clear",
+    "Heart design",
+    "Zip closure",
+    "Barrel shape"
+  ],
+  details: "Add a playful spark to your everyday essentials with this heart-themed barrel pencil case. Its transparent design lets you quickly find your favourite pens, keeping mornings fuss-free and afternoons organised. With a convenient zip closure, all your items stay secure, whether you're heading off to school or working on your next creative project at home. The spacious barrel shape fits everything you need for writing, drawing or note taking. Enjoy a happy pop of personality and experience how this pencil case makes tidying up your stationery both simple and enjoyable. Treat yourself to a little extra fun and organisation.",
+  materials: "Polyvinyl chloride (PVC)",
+  extra: "Additional Information\n\nCare instructions: Clean according to given instructions\nWarning: Choking hazard. Small parts. Follow usage instructions carefully."
+},
+
+{
+  id: 28,
+  title: "Square Hearts Insulated Cold Box",
+  price: 41,
+  images: [
+    "images/squareheartscoldbox.jpg",
+    "images/sqaureheartscoldbox1.jpg",
+    "images/squareheartscoldbox2.jpg"
+  ],
+  features: [
+    "Dimensions/Size: 21cm (H) x 24.5cm (W) x 10cm (D)",
+    "Hearts print",
+    "Top carry handle",
+    "Easy clean PEVA lining",
+    "Keeps food hot or cold for longer",
+    "Insulated"
+  ],
+  details: "Add a dash of cheer to your outings with the Anko Square Hearts Insulated Cold Box. Designed to keep your meals and drinks at the perfect temperature, this cold box turns every packed lunch or picnic into a delight. The playful hearts design brings a smile every time you open it, while the top carry handle makes taking it on the go incredibly easy. Its insulation and easy-clean PEVA lining help preserve the freshness of your food, so you can enjoy every bite just the way you like it. Reliable and practical, this cold box is the perfect companion for daily adventures, school runs, or relaxed afternoons in the park. Make every mealtime more enjoyable—bring yours home today.",
+  materials: "Shell: Polyester\nFilling: Polyethylene (PE)\nLining: Polyethylene Vinyl Acetate (PEVA)",
+  extra: "Additional Information\n\nCare instructions: Clean according to given instructions."
+},
+
+{
+  id: 29,
+  title: "3 Piece Marble Backpack Set",
+  price: 41,
+  images: [
+    "images/marblebackpack.jpg",
+    "images/marblebackpack1.jpg",
+    "images/marblebackpack2.jpg",
+    "images/marblebackpack3.jpg",
+    "images/marblebackpack4.jpg"
+  ],
+  features: [
+    "Includes 1 x backpack, 1 x water bottle and 1 x novelty keyring",
+    "3 pieces",
+    "Capacity: Water bottle: 550ml",
+    "Dimensions/Size: Backpack: 44cm (H) x 31cm (W) x 17.5cm (D); Lunch bag: 30cm (H) x 17.5cm (W) x 12cm (D)",
+    "Marble print",
+    "Backpack: Padded shoulder straps and padded back; 2 main compartments including padded laptop section; 2 side mesh pockets; 1 front insulated pocket; top carry loop; 1 zippered pocket with internal organiser",
+    "Water bottle: BPA free",
+    "Keyring: Novelty pom pom design"
+  ],
+  details: "Bring a boost of fun and flair to every day with the 3 Piece Marble Backpack Set. With its trendy marble print, this coordinated set features everything you need for school, travel or casual outings, helping you stay organised and looking fantastic. The roomy backpack makes carrying your essentials easy and comfortable, thanks to its thoughtful padded straps and multiple compartments. Keep your hydration stylishly sorted with the matching water bottle, perfect for busy days on the go, and add a dash of personality with the playful pom pom keyring. This set delivers a striking blend of fashion and function, making it ideal for anyone who wants to keep organised without compromising on style. Step out in confidence and let your accessories do the talking – grab your marble set today and make every moment a little brighter.",
+  materials: "MARBLE BACKPACK 3PC",
+  extra: "Additional Information\n\nFor cold water only. Not suitable for hot water or soft drinks (Drink bottle)\nNot suitable for dishwasher or microwave use (Drink bottle)\nCare instructions: Clean according to given instructions\nNote: This is not a toy.\nCaution: Straps may be an entrapment hazard. Not suitable for children under 3 years.\n\nWarning: Choking hazard. Small parts. Follow usage instructions carefully."
+},
+
+{
+  id: 31,
+  title: "How To Train Your Dragon: Dragon Volcano Island Titan Red Death Figure",
+  price: 41,
+  images: [
+    "images/dragon.jpg",
+    "images/dragon1.jpg",
+    "images/dragon2.jpg",
+    "images/dragon3.jpg"
+  ],
+  features: [
+    "23-Inch Dragon Action Figure: Bring home Titan Red Death, the queen of the dragons, a massive collectible dragon figure that’s almost two feet long, with movable wings, legs, and head.",
+    "Monstrous Roars: Flap her red, shredded wings from the movie, then press the button to activate Titan Red Death’s ferocious roars. 2 AA batteries included.",
+    "Let Their Imagination Soar: Engage the imagination with pretend play dragon toys to create all-new adventures with your favorite dragon.",
+    "Collect Them All: Build your dragons collection and assemble your other favorite heroic Dragon & Viking duos from How to Train Your Dragon.",
+    "Girl & Boy Toys: DreamWorks Dragons action figures and plushies make great holiday or birthday gifts for kids ages 4 and up."
+  ],
+  details: "Bring home Titan Red Death, the queen of the dragons, and create exciting How to Train Your Dragon adventures with this massive, movable action figure.",
+  materials: "",
+  extra: "2 AA batteries included. Suitable for ages 4 years and up."
+},
+
+{
+  id: 32,
+  title: "Mini Blocks Vehicle Series: Sports Car",
+  price: 41,
+  images: [
+    "images/miniankocars.jpg",
+    "images/miniankocars1.jpg",
+    "images/miniankocars2.jpg"
+  ],
+  features: [
+    "Suitable for ages: 5+ years.",
+    "Includes only 1 Mini Blocks Vehicle Series: Sports Car.",
+    "Red Sports Car: 142 pieces.",
+    "Blue Sports Car: 138 pieces.",
+    "Dimensions/Size: 14.5cm (H) x 9cm (W) x 6.5cm (D).",
+    "Red or blue variants.",
+    "2 designs to collect.",
+    "Difficulty level: 1.",
+    "Each sold separately."
+  ],
+  details: "Bring excitement to playtime with the Mini Blocks Vehicle Series Sports Car. Children can construct their own sporty vehicle in either red or blue, encouraging focus, creativity, and hands-on imaginative play.",
+  materials: "",
+  extra: "Additional Information\n\nAdult assistance is recommended.\nInstruction manual included.\nWarning: Choking hazard. Small parts. Follow usage instructions carefully.\n\nDisclaimer: Products are sold separately and come in various designs. You can select which design you want with your online order."
+},
+
+{
+  id: 33,
+  title: "Monster Jam Mini Jams Cobra's Crazy Escape",
+  price: 41,
+  images: [
+    "images/minimonstercobra.jpg",
+    "images/minimonstercobra1.jpg",
+    "images/minimonstercobra2.jpg"
+  ],
+  features: [
+    "28-Inch Jungle Adventure: Power up the motorized launcher and send Mini Monster Trucks flying through a looping jungle track that’s over two feet long.",
+    "2 Exclusive Mini Jams: Includes ThunderROARus and JCB Digatron in 1:87 scale, featuring gem-themed designs and fierce Monster Jam styling.",
+    "Escape the Cobra’s Trap: Lift the secret lever to open the hidden door and blast your truck out the side exit. Batteries not included.",
+    "Monster Jam Storage: Store and display up to 6 Monster Jam Mini Jams. Other trucks sold separately.",
+    "Toys for ages 3 and up: A great holiday or birthday gift for kids.",
+    "Includes: Entry ramp, booster base, track base, left and right base supports, track curve, track bridge, track end, cobra head, left and right cobra hoods, ThunderROARus, JCB Digatron, and instruction sheet."
+  ],
+  details: "Launch into Monster Jam mayhem with Cobra's Crazy Escape, featuring a motorized jungle track, looping action, a secret escape door, and two exclusive Mini Jams trucks.",
+  materials: "",
+  extra: "Batteries not included. Suitable for ages 3 years and up. Other trucks sold separately."
+},
+
+{
+  id: 34,
+  title: "43cm Disney Ultimate Angel Interactive Feature Plush Toy",
+  price: 41,
+  images: [
+    "images/stitchangel.jpg",
+    "images/stitchangel1.jpg",
+    "images/stitchangel2.jpg",
+    "images/stitchangel3.jpg",
+    "images/stitchangel4.jpg"
+  ],
+  features: [
+    "Suitable for ages: 3+ years.",
+    "Dimensions/Size: 32.63cm (H) x 25.09cm (W) x 12.7cm (D) x 0.55kg approx.",
+    "Includes Disney’s Angel interactive plush toy.",
+    "LCD Visual Effects and Sounds: Animated LCD eyes and over 50 sound effects and phrases.",
+    "All the Moods: LCD-screen eyes respond to touch and motion with changing moods.",
+    "Interactive Features: Pet her head, press or tickle her belly, move her around, or hold her upside down to activate different reactions.",
+    "Cuddle the Chaos: Soft mixed materials make this 13.5-inch stuffed animal perfect for hugs and imaginative play.",
+    "Officially licensed Disney toy by Just Play.",
+    "Requires 3 x AAA batteries, included."
+  ],
+  details: "Meet Disney’s Stitch Many Moods Angel feature plush toy — equal parts sweet, sassy, and unpredictable. Slide the switch from TRY ME to ON to unlock Angel’s emotions, animated LCD eyes, sounds, and reactions. Pet her forehead, rub her belly, jiggle, tilt, or gently rock her to discover different responses.",
+  materials: "Fabric, plastic, metals",
+  extra: "3 x AAA batteries required (included). Ages 3 years and up."
+},
+
+{
+  id: 30,
+  title: "3 Piece Juniour Backpack with Popit Keychain-Dinosaur",
+  price: 41,
+  images: [
+    "images/dinobackpack.jpg",
+    "images/dinobackpack1.jpg",
+    "images/dinobackpack2.jpg",
+    "images/dinobackpack3.jpg",
+    "images/dinobackpack4.jpg"
+  ],
+  features: [
+    "Accessories not included",
+    "Dimensions/Size: Backpack: 37cm (H) x 29cm (W) x 12cm (D); Handle: 8.5cm (L)",
+    "Colour: Navy",
+    "Dinosaur print",
+    "Padded adjustable shoulder straps",
+    "Padded back panel",
+    "1 large main compartment with zip closure",
+    "1 large front pocket with zip closure",
+    "1 side pocket with pop-it dinosaur design keychain",
+    "Carry handles"
+  ],
+  details: "Brighten up your child’s day with this junior backpack, showcasing a cheerful dinosaur design and a playful pop-it keyring attached for added fun. The backpack comes in a rich navy colour, offering a comfortable fit with its padded, adjustable straps and cushioned back. There's plenty of room inside for school supplies, snacks and all sorts of treasures, while the secure zips keep everything safe. Designed with adventure and everyday journeys in mind, this backpack helps kids stay organised in style while encouraging them to carry their belongings with confidence. Give your little one a reason to look forward to each day—make this backpack their new favourite companion.",
+  materials: "",
+  extra: "Additional Information\n\nNote: This is not a toy.\nCare instructions: Clean according to given instructions\nWarning: Choking hazard. Small parts. Follow usage instructions carefully."
+}
+
+];
+
+const params = new URLSearchParams(window.location.search);
+const productId = Number.parseInt(params.get("id"), 10);
+const product = PRODUCTS.find(item => item.id === productId) || PRODUCTS[0];
+
+document.getElementById("productTitle").textContent = product.title;
+document.getElementById("productPrice").textContent = "$" + product.price;
+document.getElementById("productDetails").textContent = product.details;
+document.getElementById("productMaterials").textContent = product.materials;
+document.getElementById("productExtra").textContent = product.extra;
+
+document.getElementById("featuresList").innerHTML =
+  product.features.map(f => `<li>${f}</li>`).join("");
+
+const mainImage = document.getElementById("mainImage");
+const thumbs = document.getElementById("thumbs");
+let currentIndex = 0;
+
+mainImage.src = product.images[0];
+
+product.images.forEach((img,index)=>{
+  const thumb = document.createElement("img");
+  thumb.src = img;
+  thumb.onclick = ()=>setImage(index);
+  thumbs.appendChild(thumb);
+});
+
+function changeImage(direction){
+  currentIndex = (currentIndex + direction + product.images.length) % product.images.length;
+  mainImage.src = product.images[currentIndex];
+}
+
+function setImage(index){
+  currentIndex = index;
+  mainImage.src = product.images[currentIndex];
+}
+
+</script>
+
+</body>
+</html>
