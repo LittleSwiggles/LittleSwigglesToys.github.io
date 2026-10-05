@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Checkout | Little Swiggles</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;padding:24px;font-family:Arial,sans-serif;background:#fff5f8;color:#222}
+  main{max-width:760px;margin:32px auto;background:#fff;padding:28px;border-radius:16px;box-shadow:0 6px 20px rgba(12,22,45,.12)}
+  h1{color:#ff1493;margin:0 0 10px}
+  .intro{margin-bottom:22px;color:#555}
+  #cartItems{list-style:none;padding:0;margin:0}
+  #cartItems li{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #eee}
+  #cartItems img{width:64px;height:64px;object-fit:contain;border-radius:8px;background:#fff}
+  .item-info{flex:1;min-width:0}
+  .item-info strong{display:block;margin-bottom:6px}
+  .quantity{display:flex;align-items:center;gap:8px;margin-top:6px}
+  .quantity button,.remove{border:1px solid #ddd;background:#fff;border-radius:6px;padding:5px 10px;cursor:pointer}
+  .remove{color:#b00045}
+  .subtotal{text-align:right;font-size:1.1rem;font-weight:bold;margin:18px 0}
+  label{display:block;font-weight:bold;margin:18px 0 7px}
+  textarea{width:100%;min-height:110px;padding:12px;border:1px solid #ccc;border-radius:8px;font:inherit;resize:vertical}
+  .submit,.back{display:inline-block;margin-top:18px;padding:12px 18px;border:0;border-radius:999px;background:linear-gradient(90deg,#ffeb3b,#ff69b4);color:#fff;font-weight:bold;text-decoration:none;cursor:pointer}
+  .empty{padding:20px 0;color:#555}
+  @media(max-width:520px){body{padding:12px}main{padding:20px}.remove{padding:5px 7px}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Your order request</h1>
+  <p class="intro">Review your selected items and add the delivery location. No payment is collected here.</p>
+  <ul id="cartItems"></ul>
+  <p id="emptyMessage" class="empty" hidden>Your cart is empty. Add items from the shop first.</p>
+  <div class="subtotal" id="subtotal"></div>
+  <form id="checkoutForm">
+    <label for="deliveryLocation">Delivery location</label>
+    <textarea id="deliveryLocation" required placeholder="Enter your full delivery address, area, and any helpful directions"></textarea>
+    <button class="submit" id="sendRequest" type="submit">Send order request by email</button>
+  </form>
+  <a class="back" href="index.html">Back to shop</a>
+</main>
+<script>
+const cartItems = document.getElementById("cartItems");
+const emptyMessage = document.getElementById("emptyMessage");
+const subtotal = document.getElementById("subtotal");
+const checkoutForm = document.getElementById("checkoutForm");
+const sendRequest = document.getElementById("sendRequest");
+let cart = [];
+
+try {
+  cart = JSON.parse(localStorage.getItem("littleSwigglesCart") || "[]");
+  if (!Array.isArray(cart)) cart = [];
+} catch {
+  cart = [];
+}
+
+function saveCart(){
+  localStorage.setItem("littleSwigglesCart", JSON.stringify(cart));
+}
+function renderCart(){
+  cart = cart.filter(item => item && Number.isInteger(item.index) && item.qty > 0);
+  cartItems.innerHTML = cart.map((item, index) => `
+    <li>
+      <img src="${item.image || ''}" alt="">
+      <div class="item-info">
+        <strong>${item.title || 'Selected product'}</strong>
+        $${Number(item.price || 0).toFixed(2)} each
+        <div class="quantity">
+          <button type="button" aria-label="Decrease quantity" onclick="changeQuantity(${index}, -1)">−</button>
+          <span>${item.qty}</span>
+          <button type="button" aria-label="Increase quantity" onclick="changeQuantity(${index}, 1)">+</button>
+        </div>
+      </div>
+      <button class="remove" type="button" onclick="removeItem(${index})">Remove</button>
+    </li>
+  `).join('');
+  const total = cart.reduce((sum, item) => sum + Number(item.price || 0) * item.qty, 0);
+  subtotal.textContent = cart.length ? `Subtotal: $${total.toFixed(2)}` : '';
+  emptyMessage.hidden = cart.length > 0;
+  checkoutForm.hidden = cart.length === 0;
+  saveCart();
+}
+function changeQuantity(index, amount){
+  if (!cart[index]) return;
+  cart[index].qty += amount;
+  if (cart[index].qty <= 0) cart.splice(index, 1);
+  renderCart();
+}
+function removeItem(index){
+  cart.splice(index, 1);
+  renderCart();
+}
+checkoutForm.addEventListener("submit", event=>{
+  event.preventDefault();
+  if (!cart.length || !checkoutForm.reportValidity()) return;
+  const items = cart.map(item => `- ${item.title} — quantity: ${item.qty} — $${(Number(item.price || 0) * item.qty).toFixed(2)}`).join("\n");
+  const total = cart.reduce((sum, item) => sum + Number(item.price || 0) * item.qty, 0);
+  const body = `Hello Little Swiggles,\n\nI would like to request the following items:\n${items}\n\nSubtotal: $${total.toFixed(2)}\n\nDelivery location:\n${document.getElementById("deliveryLocation").value.trim()}\n\nPlease contact me to confirm availability and delivery.`;
+  const subject = encodeURIComponent("Little Swiggles order request");
+  window.location.href = `mailto:littleswiggles@hotmail.com?subject=${subject}&body=${encodeURIComponent(body)}`;
+});
+renderCart();
+</script>
+</body>
+</html>
