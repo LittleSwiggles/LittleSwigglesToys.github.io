@@ -228,7 +228,7 @@ header{
 
 <header>
   <div class="topbar">
-    <div class="logo"><img src="images/logo.jpg" alt="Logo" /></div>
+    <div class="logo"><img src="images/logotoys.jpg" alt="Logo" /></div>
     <div class="top-banner">
       <div class="marquee">
         <span>Original Brands • Premium Toys • Free delivery across Lebanon on orders over $100 ✨</span>
@@ -261,17 +261,9 @@ header{
 
 <main class="container">
   <div class="shop-row">
-    <aside class="sidebar" aria-label="Categories">
-      <h4>Categories</h4>
-      <div class="chips">
-        <button class="chip">Barbie</button>
-        <button class="chip">Hot Wheels</button>
-        <button class="chip">Play-Doh</button>
-        <button class="chip">Make It Real</button>
-        <button class="chip">Our Generation</button>
-        <button class="chip">ZURU</button>
-        <button class="chip">LeapFrog</button>
-      </div>
+    <aside class="sidebar" aria-label="Shop by brand">
+      <h4>Shop by brand</h4>
+      <div class="chips" id="brandFilters"></div>
     </aside>
     <section>
       <div class="products" id="products" aria-live="polite"></div>
@@ -454,18 +446,102 @@ const PRODUCTS = [
     price: 41,
     images: ["images/stitchangel.jpg","images/stitchangel1.jpg","images/stitchangel2.jpg","images/stitchangel3.jpg","images/stitchangel4.jpg"],
     link: "product.html?id=34"
+  },
+  {
+    title: "Kuromi Plush Backpack",
+    price: 41,
+    images: ["images/kuromiplushbackpack.jpg"],
+    link: "product.html?id=35"
+  },
+  {
+    title: "Foodie Backpack Set",
+    price: 41,
+    images: ["images/Foodiebackpack.jpg"],
+    link: "product.html?id=36"
+  },
+  {
+    title: "Lotso A4 Fluffy Journal",
+    price: 41,
+    images: ["images/lotsojournal.jpg","images/lotsojournal1.jpg","images/lotsojournal2.jpg","images/lotsojournal3.jpg","images/lotsojournal4.jpg"],
+    link: "product.html?id=37"
+  },
+  {
+    title: "Care Bears Colour Your Own Water Bottle Craft Kit",
+    price: 41,
+    images: ["images/carebear.jpg","images/carebear1.jpg","images/carebear2.jpg","images/carebear3.jpg","images/carebear4.jpg"],
+    link: "product.html?id=38"
+  },
+  {
+    title: "Decorate Your Own Drink Bottle",
+    price: 41,
+    images: ["images/decorateyourown.jpg"],
+    link: "product.html?id=39"
+  },
+  {
+    title: "42 Piece Stationery Art Set - Unicorn",
+    price: 41,
+    images: ["images/unicornkit.jpg","images/unicornkit1.jpg","images/unicornkit2.jpg","images/unicornkit3.jpg"],
+    link: "product.html?id=40"
+  },
+  {
+    title: "Kindred Folk Little Hazel Doll",
+    price: 41,
+    images: ["images/hazel.jpg","images/hazel1.jpg"],
+    link: "product.html?id=41"
   }
 ];
+
+const UPDATED_PRICES = {
+  0: 43, 1: 39, 2: 32, 3: 20, 4: 59.5, 5: 27, 6: 30, 7: 30, 8: 20,
+  9: 50, 10: 70, 11: 35, 12: 43, 13: 100, 15: 100, 16: 59.5, 17: 14,
+  23: 30, 24: 12.25, 25: 17.5, 26: 26.25, 27: 10, 28: 15, 29: 35,
+  30: 20, 31: 39, 32: 20, 34: 61, 35: 30, 36: 35, 37: 10, 38: 15,
+  39: 15, 40: 20, 41: 19
+};
+PRODUCTS.forEach(product => {
+  const id = Number(product.link.split("id=")[1]);
+  if (Object.prototype.hasOwnProperty.call(UPDATED_PRICES, id)) {
+    product.price = UPDATED_PRICES[id];
+  }
+});
 
 let currentIndexes = Array(PRODUCTS.length).fill(0);
 let activeProduct = 0;
 let cart = [];
 let wishlist = [];
+let activeBrand = "All";
+
+const PRODUCT_BRANDS = [
+  ["Barbie", "Mattel"], ["Barbie", "Mattel"], ["Make It Real"], ["ZURU"],
+  ["Barbie", "Mattel"], ["Make It Real"], ["Hot Wheels", "Mattel"], ["Fisher-Price"],
+  ["Pour Palz"], ["Hot Wheels", "Mattel"], ["Play-Doh", "Hasbro"], ["Disney", "Mattel"],
+  ["Barbie", "Mattel"], ["Barbie", "Mattel"], ["Barbie", "Mattel"], ["Our Generation"],
+  ["Disney", "Make It Real"], ["Anko"], ["Anko"], ["Anko"], ["Anko"], ["Anko"],
+  ["Anko"], ["Anko"], ["Anko"], ["DreamWorks Dragons"], ["Anko"], ["Monster Jam"],
+  ["Disney", "Just Play"], ["Sanrio"], ["Anko"], ["Disney", "Pixar"], ["Care Bears"],
+  ["Anko"], ["Anko"], ["Kindred Folk"]
+];
+const BRANDS = ["All", ...new Set(PRODUCT_BRANDS.flat().concat("LeapFrog"))];
+const brandFilters = document.getElementById("brandFilters");
+brandFilters.innerHTML = BRANDS.map(brand =>
+  `<button class="chip${brand === activeBrand ? " active" : ""}" type="button" data-brand="${brand}">${brand}</button>`
+).join("");
+brandFilters.addEventListener("click", event => {
+  const button = event.target.closest("[data-brand]");
+  if (!button) return;
+  activeBrand = button.dataset.brand;
+  brandFilters.querySelectorAll(".chip").forEach(chip =>
+    chip.classList.toggle("active", chip.dataset.brand === activeBrand)
+  );
+  render();
+});
 
 // RENDER PRODUCTS
 function render() {
   const products = document.getElementById("products");
-  products.innerHTML = PRODUCTS.map((p,i)=>`
+  const visibleProducts = PRODUCTS.map((product, index) => ({ product, index }))
+    .filter(({ index }) => activeBrand === "All" || PRODUCT_BRANDS[index].includes(activeBrand));
+  products.innerHTML = visibleProducts.map(({ product: p, index: i })=>`
     <div class="card">
       <div class="image-wrap">
         <img class="main-img" id="main-${i}" src="${p.images[0]}" alt="${p.title}" tabindex="0" onclick="openLightbox(${i})" onkeydown="if(event.key==='Enter'){openLightbox(${i})}" />
