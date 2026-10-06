@@ -152,6 +152,27 @@ ul{margin-left:20px;}
   color:#b00020;
   font-weight:bold;
 }
+
+@media(max-width:760px){
+  header{padding:14px;}
+  header h1{font-size:23px;margin-left:0;}
+  .header-icons{margin-right:8px;gap:12px;}
+  .container{grid-template-columns:1fr;gap:18px;margin:18px auto;padding:12px;}
+  .gallery,.details{padding:18px;}
+  .main-img{height:min(65vw,360px);}
+  .details{overflow:visible;}
+}
+@media(max-width:480px){
+  header h1{font-size:19px;}
+  .header-icons{gap:10px;margin-right:4px;}
+  .header-icons div{font-size:21px;}
+  .container{margin:10px auto;padding:8px;}
+  .gallery,.details{padding:14px;border-radius:12px;}
+  .main-img{height:280px;}
+  .thumbs img{width:64px;height:64px;}
+  .details h2{font-size:21px;}
+  button{padding:10px 16px;margin-bottom:10px;}
+}
 </style>
 </head>
 
@@ -233,9 +254,9 @@ const PRODUCTS = [
   title: "Mattel Barbie Fun & Fancy Doll with Extra-Long Hair",
   price: 41,
   images: [
-    "images/Mattel Barbie Fun & Fancy Doll with Extra-Long Hair.jpg",
-    "images/Mattel Barbie Fun & Fancy Doll with Extra-Long Hair1.jpg",
-    "images/Mattel Barbie Fun & Fancy Doll with Extra-Long Hair2.jpg"
+    "images/mattelbarbiefun&fancydollwithextra-longhair.jpg",
+    "images/mattelbarbiefun&fancydollwithextra-longhair1.jpg",
+    "images/mattelbarbiefun&fancydollwithextra-longhair2.jpg"
   ],
   features: [
     "Devoted to all things hair, the Barbie Fun & Fancy Hair collection showcases glam dolls with colourful hairstyles -- plus, 10 included fashion and styling pieces for endless customization!",
@@ -370,11 +391,11 @@ const PRODUCTS = [
   title: "Fisher Price 25 Key Lion Piano",
   price: 41,
   images: [
-    "images/Fisherpricelionpiano.jpg",
-    "images/Fisherpricelionpiano1.jpg",
-    "images/Fisherpricelionpiano2.jpg",
-    "images/Fisherpricelionpiano3.jpg",
-    "images/Fisherpricelionpiano4.jpg"
+    "images/fisherpricelionpiano.jpg",
+    "images/fisherpricelionpiano1.jpg",
+    "images/fisherpricelionpiano2.jpg",
+    "images/fisherpricelionpiano3.jpg",
+    "images/fisherpricelionpiano4.jpg"
   ],
   features: [
     "Brand Name: Fisher-Price",
@@ -547,11 +568,11 @@ const PRODUCTS = [
   title: "Hot Wheels Roll Out Raceway Track Set", 
   price: 41,
   images: [
-    "images/Hotwheelsrollout.jpg",
-    "images/Hotwheelsrollout1.jpg",
-    "images/Hotwheelsrollout2.jpg",
-    "images/Hotwheelsrollout3.jpg",
-    "images/Hotwheelsrollout4.jpg"
+    "images/hotwheelsrollout.jpg",
+    "images/hotwheelsrollout1.jpg",
+    "images/hotwheelsrollout2.jpg",
+    "images/hotwheelsrollout3.jpg",
+    "images/hotwheelsrollout4.jpg"
   ],
   features: [
     "Brand Name: Hot Wheels",
@@ -991,7 +1012,7 @@ const PRODUCTS = [
   id: 36,
   title: "Foodie Backpack Set",
   price: 41,
-  images: ["images/Foodiebackpack.jpg"],
+  images: ["images/foodiebackpack.jpg"],
   features: [
     "Backpack: 45cm (H) x 31cm (W) x 16.5cm (D), with a main compartment, medium and small front zippered pockets, two side mesh pockets, SBS zippers, and padded back and shoulder straps.",
     "Insulated lunch bag: 26cm (H) x 18cm (W) x 11.5cm (D).",
