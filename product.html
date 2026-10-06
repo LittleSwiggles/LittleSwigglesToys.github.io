@@ -144,7 +144,7 @@ button{
 .section h3{margin-bottom:10px;color:#ff1493;}
 ul{margin-left:20px;}
 
-.warning{
+  .warning{
   background:#fff0f5;
   padding:15px;
   border-radius:12px;
@@ -152,6 +152,18 @@ ul{margin-left:20px;}
   color:#b00020;
   font-weight:bold;
 }
+
+.modal-overlay{position:fixed;inset:0;display:none;justify-content:center;align-items:center;background:rgba(0,0,0,.5);z-index:1000;padding:16px}
+.modal-content{width:100%;max-width:520px;max-height:80vh;overflow:auto;background:#fff;padding:24px;border-radius:16px;position:relative}
+.modal-content h2{margin:0 36px 16px 0}
+.modal-content ul{list-style:none;margin:0;padding:0}
+.modal-content li{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eee}
+.modal-content li img{width:52px;height:52px;object-fit:contain}
+.modal-content li span{flex:1;min-width:0}
+.modal-content li button,.modal-close{margin:0;padding:8px 10px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#222;cursor:pointer}
+.modal-close{position:absolute;top:14px;right:14px;font-size:20px}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.modal-actions a{padding:10px 16px;border-radius:999px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;text-decoration:none;font-weight:bold}
 
 @media(max-width:760px){
   header{padding:14px;}
@@ -181,10 +193,19 @@ ul{margin-left:20px;}
 <header>
   <h1>Little Swiggles</h1>
   <div class="header-icons">
-    <div id="wishlistIcon">💖 <span id="wishlistCount">0</span></div>
-    <div id="cartIcon">🛒 <span id="cartCount">0</span></div>
+    <div id="wishlistIcon" role="button" tabindex="0" aria-label="Open wishlist">💖 <span id="wishlistCount">0</span></div>
+    <div id="cartIcon" role="link" tabindex="0" aria-label="Go to checkout">🛒 <span id="cartCount">0</span></div>
   </div>
 </header>
+
+<div class="modal-overlay" id="wishlistModal" role="dialog" aria-modal="true" aria-labelledby="wishlistTitle">
+  <div class="modal-content">
+    <button class="modal-close" type="button" onclick="closeWishlist()" aria-label="Close wishlist">×</button>
+    <h2 id="wishlistTitle">❤️ Your Wishlist</h2>
+    <ul id="wishlistItems"></ul>
+    <p id="emptyWishlist" hidden>Your wishlist is empty.</p>
+  </div>
+</div>
 
 <div class="container">
 
@@ -1123,6 +1144,73 @@ PRODUCTS.forEach(item => {
 const params = new URLSearchParams(window.location.search);
 const productId = Number.parseInt(params.get("id"), 10);
 const product = PRODUCTS.find(item => item.id === productId) || PRODUCTS[0];
+
+// These positions match the product order used by index.html.
+const SHOP_PRODUCT_IDS = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41];
+function shopIndex(id){ return SHOP_PRODUCT_IDS.indexOf(id); }
+function readStoredList(key){
+  try {
+    const value = JSON.parse(localStorage.getItem(key) || "[]");
+    return Array.isArray(value) ? value : [];
+  } catch {
+    return [];
+  }
+}
+let cart = readStoredList("littleSwigglesCart");
+let wishlist = readStoredList("littleSwigglesWishlist");
+function updateCounts(){
+  document.getElementById("cartCount").textContent = cart.reduce((sum, item) => sum + (Number(item.qty) || 0), 0);
+  document.getElementById("wishlistCount").textContent = wishlist.reduce((sum, item) => sum + (Number(item.qty) || 0), 0);
+}
+function addProductToCart(id){
+  const item = PRODUCTS.find(entry => entry.id === id);
+  const index = shopIndex(id);
+  if (!item || index < 0) return;
+  const existing = cart.find(entry => entry.index === index);
+  if (existing) existing.qty = (Number(existing.qty) || 0) + 1;
+  else cart.push({index, qty:1, title:item.title, price:item.price, image:item.images[0]});
+  localStorage.setItem("littleSwigglesCart", JSON.stringify(cart));
+  updateCounts();
+}
+function addProductToWishlist(id){
+  const item = PRODUCTS.find(entry => entry.id === id);
+  const index = shopIndex(id);
+  if (!item || index < 0) return;
+  const existing = wishlist.find(entry => entry.index === index);
+  if (existing) existing.qty = (Number(existing.qty) || 0) + 1;
+  else wishlist.push({index, qty:1, title:item.title, price:item.price, image:item.images[0]});
+  localStorage.setItem("littleSwigglesWishlist", JSON.stringify(wishlist));
+  updateCounts();
+  renderWishlist();
+}
+function renderWishlist(){
+  const list = document.getElementById("wishlistItems");
+  list.innerHTML = wishlist.map(item => `
+    <li>
+      <img src="${item.image || ''}" alt="">
+      <span>${item.title || 'Selected product'}${item.qty > 1 ? ` × ${item.qty}` : ''}</span>
+      <button type="button" onclick="addProductToCart(${SHOP_PRODUCT_IDS[item.index]})">Add to cart</button>
+      <button type="button" onclick="removeWishlistItem(${item.index})">Remove</button>
+    </li>
+  `).join('');
+  document.getElementById("emptyWishlist").hidden = wishlist.length > 0;
+}
+function removeWishlistItem(index){
+  wishlist = wishlist.filter(item => item.index !== index);
+  localStorage.setItem("littleSwigglesWishlist", JSON.stringify(wishlist));
+  updateCounts();
+  renderWishlist();
+}
+function closeWishlist(){ document.getElementById("wishlistModal").style.display = "none"; }
+document.getElementById("wishlistIcon").addEventListener("click", () => {
+  renderWishlist();
+  document.getElementById("wishlistModal").style.display = "flex";
+});
+document.getElementById("cartIcon").addEventListener("click", () => { window.location.href = "checkout.html"; });
+document.getElementById("addCartBtn").addEventListener("click", () => addProductToCart(product.id));
+document.getElementById("addWishlistBtn").addEventListener("click", () => addProductToWishlist(product.id));
+updateCounts();
+renderWishlist();
 
 document.getElementById("productTitle").textContent = product.title;
 document.getElementById("productPrice").textContent = "$" + product.price;
