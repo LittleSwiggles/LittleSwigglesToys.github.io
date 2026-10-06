@@ -9,7 +9,8 @@
   body{margin:0;padding:24px;font-family:Arial,sans-serif;background:#fff5f8;color:#222}
   main{max-width:760px;margin:32px auto;background:#fff;padding:28px;border-radius:16px;box-shadow:0 6px 20px rgba(12,22,45,.12)}
   h1{color:#ff1493;margin:0 0 10px}
-  .intro{margin-bottom:22px;color:#555}
+  .intro{margin-bottom:12px;color:#555}
+  .delivery-note{margin-bottom:22px;color:#555;font-size:.95rem}
   #cartItems{list-style:none;padding:0;margin:0}
   #cartItems li{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #eee}
   #cartItems img{width:64px;height:64px;object-fit:contain;border-radius:8px;background:#fff}
@@ -30,6 +31,7 @@
 <main>
   <h1>Your order request</h1>
   <p class="intro">Review your selected items and add the delivery location. No payment is collected here.</p>
+  <p class="delivery-note">A $5 delivery fee applies to orders under $100. Delivery is free on orders of $100 or more.</p>
   <ul id="cartItems"></ul>
   <p id="emptyMessage" class="empty" hidden>Your cart is empty. Add items from the shop first.</p>
   <div class="subtotal" id="subtotal"></div>
@@ -75,8 +77,12 @@ function renderCart(){
       <button class="remove" type="button" onclick="removeItem(${index})">Remove</button>
     </li>
   `).join('');
-  const total = cart.reduce((sum, item) => sum + Number(item.price || 0) * item.qty, 0);
-  subtotal.textContent = cart.length ? `Subtotal: $${total.toFixed(2)}` : '';
+  const itemSubtotal = cart.reduce((sum, item) => sum + Number(item.price || 0) * item.qty, 0);
+  const deliveryFee = itemSubtotal > 0 && itemSubtotal < 100 ? 5 : 0;
+  const total = itemSubtotal + deliveryFee;
+  subtotal.textContent = cart.length
+    ? `Subtotal: $${itemSubtotal.toFixed(2)} | Delivery: ${deliveryFee ? `$${deliveryFee.toFixed(2)}` : 'Free'} | Total: $${total.toFixed(2)}`
+    : '';
   emptyMessage.hidden = cart.length > 0;
   checkoutForm.hidden = cart.length === 0;
   saveCart();
@@ -95,8 +101,10 @@ checkoutForm.addEventListener("submit", event=>{
   event.preventDefault();
   if (!cart.length || !checkoutForm.reportValidity()) return;
   const items = cart.map(item => `- ${item.title} — quantity: ${item.qty} — $${(Number(item.price || 0) * item.qty).toFixed(2)}`).join("\n");
-  const total = cart.reduce((sum, item) => sum + Number(item.price || 0) * item.qty, 0);
-  const body = `Hello Little Swiggles,\n\nI would like to request the following items:\n${items}\n\nSubtotal: $${total.toFixed(2)}\n\nDelivery location:\n${document.getElementById("deliveryLocation").value.trim()}\n\nPlease contact me to confirm availability and delivery.`;
+  const itemSubtotal = cart.reduce((sum, item) => sum + Number(item.price || 0) * item.qty, 0);
+  const deliveryFee = itemSubtotal < 100 ? 5 : 0;
+  const total = itemSubtotal + deliveryFee;
+  const body = `Hello Little Swiggles,\n\nI would like to request the following items:\n${items}\n\nSubtotal: $${itemSubtotal.toFixed(2)}\nDelivery fee: ${deliveryFee ? `$${deliveryFee.toFixed(2)}` : 'Free'}\nTotal: $${total.toFixed(2)}\n\nDelivery location:\n${document.getElementById("deliveryLocation").value.trim()}\n\nPlease contact me to confirm availability and delivery.`;
   const subject = encodeURIComponent("Little Swiggles order request");
   window.location.href = `mailto:littleswiggles@hotmail.com?subject=${subject}&body=${encodeURIComponent(body)}`;
 });
