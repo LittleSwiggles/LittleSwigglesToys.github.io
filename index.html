@@ -176,9 +176,11 @@ header{
 }
 
 /* LIGHTBOX */
-.lightbox{position:fixed;inset:0;display:none;justify-content:center;align-items:center;z-index:10000;background:rgba(0,0,0,.9);}
+.lightbox{position:fixed;inset:0;display:none;justify-content:center;align-items:center;z-index:10000;background:rgba(0,0,0,.9);padding:56px 16px 16px;}
 .lightbox img{max-width:90%;max-height:90%;object-fit:contain}
 .lightbox .img-arrow{width:48px;height:48px;font-size:24px}
+.lightbox-close{position:absolute;top:12px;right:12px;width:48px;height:48px;border:0;border-radius:50%;background:#fff;color:#222;font-size:32px;line-height:1;cursor:pointer;z-index:2;box-shadow:0 2px 12px rgba(0,0,0,.35)}
+.lightbox-close:hover{background:#ff69b4;color:#fff}
 
 /* MOBILE */
 @media(max-width:900px){
@@ -232,9 +234,10 @@ header{
 </div>
 
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox">
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Product image viewer" onclick="if(event.target===this) closeLightbox()">
+  <button class="lightbox-close" type="button" onclick="closeLightbox()" aria-label="Close image viewer">×</button>
   <div class="img-arrow left" onclick="lightboxChange(-1)">‹</div>
-  <img id="lightboxImg" />
+  <img id="lightboxImg" alt="Enlarged product image" />
   <div class="img-arrow right" onclick="lightboxChange(1)">›</div>
 </div>
 
@@ -541,6 +544,12 @@ let currentIndexes = Array(PRODUCTS.length).fill(0);
 let activeProduct = 0;
 let cart = JSON.parse(localStorage.getItem("littleSwigglesCart") || "[]");
 let wishlist = [];
+try {
+  const savedWishlist = JSON.parse(localStorage.getItem("littleSwigglesWishlist") || "[]");
+  if (Array.isArray(savedWishlist)) wishlist = savedWishlist;
+} catch {
+  wishlist = [];
+}
 let activeBrand = "All";
 
 const PRODUCT_BRANDS = [
@@ -612,6 +621,9 @@ function openLightbox(i){
   lightboxImg.src = PRODUCTS[i].images[currentIndexes[i]];
   lightbox.style.display="flex";
 }
+function closeLightbox(){
+  lightbox.style.display="none";
+}
 function lightboxChange(d){
   changeImage(activeProduct,d);
   lightboxImg.src = PRODUCTS[activeProduct].images[currentIndexes[activeProduct]];
@@ -620,7 +632,7 @@ document.addEventListener("keydown", e=>{
   if(lightbox.style.display==="flex"){
     if(e.key==="ArrowRight") lightboxChange(1);
     if(e.key==="ArrowLeft") lightboxChange(-1);
-    if(e.key==="Escape") lightbox.style.display="none";
+    if(e.key==="Escape") closeLightbox();
   }
 });
 
@@ -643,6 +655,16 @@ function saveCart(){
   }));
   localStorage.setItem("littleSwigglesCart", JSON.stringify(savedCart));
 }
+function saveWishlist(){
+  const savedWishlist = wishlist.map(item=>({
+    index:item.index,
+    qty:item.qty,
+    title:PRODUCTS[item.index].title,
+    price:PRODUCTS[item.index].price,
+    image:PRODUCTS[item.index].images[0]
+  }));
+  localStorage.setItem("littleSwigglesWishlist", JSON.stringify(savedWishlist));
+}
 function updateCounts(){
   document.getElementById("cartCount").textContent = cart.reduce((a,c)=>a+c.qty,0);
   document.getElementById("wishlistCount").textContent = wishlist.reduce((a,c)=>a+c.qty,0);
@@ -657,6 +679,7 @@ function addToCart(i){
 function addToWishlist(i){
   let item = wishlist.find(c=>c.index===i);
   if(item) item.qty++; else wishlist.push({index:i,qty:1});
+  saveWishlist();
   updateCounts();
   renderWishlist();
 }
@@ -699,12 +722,13 @@ function changeQty(type,i,d){
   if(!item) return;
   item.qty+=d;
   if(item.qty<=0) arr.splice(arr.indexOf(item),1);
-  if(type==='cart') saveCart();
+  if(type==='cart') saveCart(); else saveWishlist();
   updateCounts();
   type==='cart'?renderCart():renderWishlist();
 }
 function removeFromWishlist(i){
   wishlist = wishlist.filter(item=>item.index!==i);
+  saveWishlist();
   updateCounts();
   renderWishlist();
 }
