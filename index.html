@@ -20,10 +20,18 @@ body{font-family:Arial,sans-serif;background:var(--surface);color:#222;}
 /* HEADER */
 header{
   background:linear-gradient(135deg,var(--accent1),var(--accent2));
-  padding:20px 0;
+  padding:20px 0 0;
   position:relative;
 }
 .topbar{display:flex;align-items:center;gap:20px; max-width:1200px;margin:auto;padding:0 20px;position:relative;}
+.header-tools{max-width:1200px;margin:18px auto 0;padding:0 20px;display:grid;grid-template-columns:minmax(240px,1fr) auto;gap:14px;align-items:center;}
+.header-search{display:flex;min-width:0;background:#fff;border-radius:999px;box-shadow:0 4px 14px rgba(12,22,45,.12);overflow:hidden;}
+.header-search input{width:100%;min-width:0;padding:13px 18px;border:0;outline:0;font:inherit;color:#333;}
+.header-search button{padding:0 22px;border:0;background:#d91578;color:#fff;font-weight:bold;cursor:pointer;}
+.header-search button:hover{background:#b91064;}
+.main-nav{display:flex;align-items:center;gap:8px;}
+.main-nav a{padding:10px 14px;border-radius:999px;color:#54243b;text-decoration:none;font-weight:bold;white-space:nowrap;transition:background .2s,color .2s;}
+.main-nav a:hover,.main-nav a:focus-visible{background:#fff;color:#d91578;outline:none;}
 .logo{width:120px;height:120px;border-radius:50%;overflow:hidden;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.2);}
 .logo img{width:100%;height:100%;object-fit:cover}
 
@@ -70,6 +78,9 @@ header{
 
 /* HERO */
 .hero{font-family:'Pacifico',cursive;font-size:2.6rem;text-align:center;margin:30px 0;color:#ff1493;}
+.about-intro{max-width:850px;margin:0 auto 24px;padding:24px 28px;text-align:center;background:linear-gradient(135deg,#fff0f6,#ffd6e8);border:1px solid #ffd0e4;border-radius:18px;box-shadow:var(--shadow);}
+.about-intro h2{color:#d91578;margin-bottom:10px;font-size:1.5rem}
+.about-intro p{color:#55434b;line-height:1.65}
 
 /* CAROUSEL */
 .carousel-wrapper{height:450px;margin:20px auto 0;overflow:hidden;position:relative;}
@@ -90,7 +101,7 @@ header{
 
 /* PRODUCTS */
 .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
-.card{background:#fff;padding:14px;border-radius:14px;box-shadow:var(--shadow);transition:transform .3s, box-shadow .3s;}
+.card{background:linear-gradient(160deg,#fffafd 0%,#fff0f6 52%,#ffe1ee 100%);padding:14px;border:1px solid #f8d5e3;border-radius:14px;box-shadow:var(--shadow);transition:transform .3s, box-shadow .3s;}
 .card:hover{transform:translateY(-4px) scale(1.01); box-shadow:0 12px 30px rgba(0,0,0,.18);}
 .image-wrap{position:relative}
 .main-img{width:100%;height:200px;object-fit:contain;cursor:pointer;}
@@ -182,20 +193,42 @@ header{
 .lightbox-close{position:absolute;top:12px;right:12px;width:48px;height:48px;border:0;border-radius:50%;background:#fff;color:#222;font-size:32px;line-height:1;cursor:pointer;z-index:2;box-shadow:0 2px 12px rgba(0,0,0,.35)}
 .lightbox-close:hover{background:#ff69b4;color:#fff}
 
+/* FOOTER */
+.site-footer{background:#382535;color:#fff;margin-top:40px;padding:34px 20px 18px;}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:28px;align-items:center;}
+.footer-brand{display:flex;align-items:center;gap:14px;}
+.footer-brand img{width:76px;height:76px;object-fit:cover;border-radius:50%;background:#fff;}
+.footer-brand strong{font-family:'Pacifico',cursive;font-size:1.3rem;color:#ffd6e8;}
+.footer-links{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:12px 24px;}
+.footer-links a{color:#fff;text-decoration:none;}
+.footer-links a:hover{text-decoration:underline;color:#ffd6e8;}
+.footer-copy{max-width:1200px;margin:24px auto 0;padding-top:14px;border-top:1px solid rgba(255,255,255,.22);text-align:center;color:#eadde6;font-size:.9rem;}
+
 /* MOBILE */
 @media(max-width:900px){
   .shop-row{grid-template-columns:1fr}
+  .shop-row > section{order:1}
+  .shop-row > .sidebar{order:2}
   .carousel-wrapper{height:280px}
+  .header-tools{grid-template-columns:1fr;gap:8px;}
+  .main-nav{justify-content:center;flex-wrap:wrap;}
 }
 @media(max-width:600px){
-  header{padding:12px 0}
+  header{padding:12px 0 0}
   .topbar{gap:10px;padding:0 12px;min-height:72px}
+  .header-tools{padding:0 12px;margin-top:14px;}
+  .header-search input{padding:11px 14px;font-size:14px;}
+  .header-search button{padding:0 16px;font-size:14px;}
+  .main-nav{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding:2px 0 6px;}
+  .main-nav a{padding:9px 12px;font-size:14px;}
   .logo{width:68px;height:68px;flex:0 0 68px}
   .top-banner{padding-right:94px;font-size:12px}
   .top-icons{right:12px;gap:8px}
   .top-icons button{padding:8px;font-size:17px}
   .top-icons button .count{width:16px;height:16px;font-size:10px}
   .hero{font-size:1.8rem;margin:22px 12px}
+  .about-intro{margin:0 12px 20px;padding:20px 16px}
+  .about-intro h2{font-size:1.3rem}
   .carousel-wrapper{height:220px;margin-top:12px}
   .container{padding:12px}
   .products{grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:12px}
@@ -208,6 +241,9 @@ header{
   .modal-content li > button{padding:6px 8px;font-size:12px}
   .modal-content li img{width:42px;height:42px;margin-right:2px}
   .qty-controls{gap:4px}
+  .footer-inner{grid-template-columns:1fr;gap:20px;text-align:center;}
+  .footer-brand{justify-content:center;}
+  .footer-links{justify-content:center;gap:12px 18px;}
 }
 @media(max-width:380px){
   .top-banner{display:none}
@@ -279,6 +315,18 @@ header{
     </div>
   </div>
 
+  <div class="header-tools">
+    <form class="header-search" id="searchForm" role="search">
+      <input id="productSearch" type="search" placeholder="Search toys, brands, and more..." aria-label="Search products" />
+      <button type="submit">Search</button>
+    </form>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#products">Shop</a>
+      <a href="#brandFilters">Brands</a>
+      <a href="#aboutTitle">About us</a>
+    </nav>
+  </div>
+
   <div class="carousel-wrapper" aria-label="Featured Products Carousel">
     <div class="carousel-slide active">
       <img src="images/barbie.jpg" alt="Barbie Toys" />
@@ -294,6 +342,11 @@ header{
 
 <h1 class="hero">Little Swiggles, Big Giggles!</h1>
 
+<section class="about-intro" aria-labelledby="aboutTitle">
+  <h2 id="aboutTitle">A little about us</h2>
+  <p>Little Swiggles is a premium toy store that has been supplying the Lebanese market with original toys since 1995. We bring families trusted brands, quality products, and plenty of inspiration for play.</p>
+</section>
+
 <main class="container">
   <div class="shop-row">
     <aside class="sidebar" aria-label="Shop by brand">
@@ -305,6 +358,21 @@ header{
     </section>
   </div>
 </main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="images/logotoys.jpg" alt="Little Swiggles logo" />
+      <strong>Little Swiggles</strong>
+    </div>
+    <div class="footer-links" aria-label="Contact and social links">
+      <a href="https://www.instagram.com/littleswigglestoys/" target="_blank" rel="noopener noreferrer">Instagram: @littleswigglestoys</a>
+      <a href="https://www.facebook.com/littleswiggletoys" target="_blank" rel="noopener noreferrer">Facebook: @littleswiggletoys</a>
+      <a href="mailto:littleswigglestoys@hotmail.com">littleswigglestoys@hotmail.com</a>
+    </div>
+  </div>
+  <div class="footer-copy">© 2026 Little Swiggles. All rights reserved.</div>
+</footer>
 
 <script>
 const PRODUCTS = [
@@ -551,6 +619,7 @@ try {
   wishlist = [];
 }
 let activeBrand = "All";
+let activeSearch = "";
 
 const PRODUCT_BRANDS = [
   ["Barbie", "Mattel"], ["Barbie", "Mattel"], ["Make It Real"], ["ZURU"],
@@ -576,12 +645,20 @@ brandFilters.addEventListener("click", event => {
   );
   render();
 });
+document.getElementById("searchForm").addEventListener("submit", event => event.preventDefault());
+document.getElementById("productSearch").addEventListener("input", event => {
+  activeSearch = event.target.value.trim().toLowerCase();
+  render();
+});
 
 // RENDER PRODUCTS
 function render() {
   const products = document.getElementById("products");
   const visibleProducts = PRODUCTS.map((product, index) => ({ product, index }))
-    .filter(({ index }) => activeBrand === "All" || PRODUCT_BRANDS[index].includes(activeBrand));
+    .filter(({ product, index }) =>
+      (activeBrand === "All" || PRODUCT_BRANDS[index].includes(activeBrand)) &&
+      product.title.toLowerCase().includes(activeSearch)
+    );
   products.innerHTML = visibleProducts.map(({ product: p, index: i })=>`
     <div class="card">
       <div class="image-wrap">
