@@ -393,7 +393,10 @@ const PRODUCTS = [
   price: 41,
   images: [
     "images/hotwheelstoolkit.jpg",
-    "images/hotwheelstoolkit1.jpg"
+    "images/hotwheelstoolkit1.jpg",
+    "images/hotwheelstoolkit2.jpg",
+    "images/hotwheelstoolkit3.jpg",
+    "images/hotwheelstoolkit4.jpg"
   ],
   features: [
     "Play vehicle type: Car & Truck Play Vehicles",
@@ -913,27 +916,21 @@ const PRODUCTS = [
 
 {
   id: 32,
-  title: "Mini Blocks Vehicle Series: Sports Car",
+  title: "Blocks Vehicle Series: Sports Cat",
   price: 41,
   images: [
     "images/miniankocars.jpg",
-    "images/miniankocars1.jpg",
-    "images/miniankocars2.jpg"
+    "images/miniankocars1.jpg"
   ],
   features: [
-    "Suitable for ages: 5+ years.",
-    "Includes only 1 Mini Blocks Vehicle Series: Sports Car.",
-    "Red Sports Car: 142 pieces.",
-    "Blue Sports Car: 138 pieces.",
-    "Dimensions/Size: 14.5cm (H) x 9cm (W) x 6.5cm (D).",
-    "Red or blue variants.",
-    "2 designs to collect.",
-    "Difficulty level: 1.",
-    "Each sold separately."
+    "Piece Count: 505 micro-sized pieces.",
+    "Recommended Age: 8 years and older.",
+    "Model Style: Built in a scale reminiscent of Lego Speed Champions builds but structured using technical framing pieces.",
+    "Dimensions: Once fully completed, it forms a display model measuring approximately 22cm (H) x 28cm (W) x 7cm (D)."
   ],
-  details: "Bring excitement to playtime with the Mini Blocks Vehicle Series Sports Car. Children can construct their own sporty vehicle in either red or blue, encouraging focus, creativity, and hands-on imaginative play.",
+  details: "Build a detailed sports cat display model from 505 micro-sized pieces, using technical framing pieces for a construction style inspired by Speed Champions builds.",
   materials: "",
-  extra: "Additional Information\n\nAdult assistance is recommended.\nInstruction manual included.\nWarning: Choking hazard. Small parts. Follow usage instructions carefully.\n\nDisclaimer: Products are sold separately and come in various designs. You can select which design you want with your online order."
+  extra: "Recommended for ages 8 years and older."
 },
 
 {
@@ -1174,6 +1171,55 @@ const PRODUCTS = [
   details: "This five-piece Disney Lilo & Stitch mini figure set shows Stitch in five playful poses, each approximately 2 to 2.5 inches tall.",
   materials: "",
   extra: "Recommended for ages 3 years and older. Small parts."
+},
+
+{
+  id: 45,
+  title: "PAW Patrol Chase to the Rescue Dough Playset",
+  price: 41,
+  images: ["images/pawpatrol.jpg"],
+  features: [
+    "Theme: The set features Chase, the German Shepherd police pup, alongside his signature blue police cruiser and the PAW Patrol Lookout Tower.",
+    "Dough Quantity: Includes 196 grams of modeling compound divided into 7 individual 28-gram dough packs. Colors include white, black, green, red, yellow, and blue.",
+    "Molds & Tools: Includes a 3D vehicle mold to create Chase's cruiser, background element stampers for the Lookout Tower, traffic cones, and stars, plus a blue plastic sculpting knife tool.",
+    "Age Rating: Safety-rated for children 3 years and older."
+  ],
+  details: "Create PAW Patrol adventures with Chase, his blue police cruiser, Lookout Tower stampers, and seven packs of colorful modeling compound.",
+  materials: "Modeling compound and plastic tools.",
+  extra: "Suitable for children 3 years and older."
+},
+
+{
+  id: 46,
+  title: "Disney Lilo & Stitch 2-Pack Figure",
+  price: 41,
+  images: ["images/stitch.jpg","images/stitch1.jpg"],
+  features: [
+    "Characters Included: This set bundles two detailed mini-figures.",
+    "Beach Ball Stitch: Experiment 626 balances upside down on one hand while playfully kicking a pastel yellow, pink, and green beach ball.",
+    "Stitch with Scrump: A happy Stitch stands upright with Lilo's handmade rag doll, Scrump, sitting on his head.",
+    "Dimensions: Each figurine measures approximately 2.5 to 3 inches tall.",
+    "Recommended Age: Suitable for children 3 years and older due to smaller components."
+  ],
+  details: "This Disney Lilo & Stitch two-pack features Beach Ball Stitch and Stitch with Scrump, each approximately 2.5 to 3 inches tall.",
+  materials: "",
+  extra: "Recommended for children 3 years and older. Small parts."
+},
+
+{
+  id: 47,
+  title: "Disney Pixar Toy Story Lotso Stationery Set",
+  price: 41,
+  images: ["images/lotsoset.jpg"],
+  features: [
+    "Central Notebook / A5 Journal: A medium-sized journal featuring a prominent print of Lotso's face against a retro rainbow backdrop.",
+    "Plush Pom-Pom Pen: A custom pink writing pen topped with an ultra-soft, fluffy pom-pom.",
+    "Pencil Set & Mechanical Accessories: Multiple character-patterned graphite pencils, a custom pink ruler, a safety pencil sharpener, and erasers.",
+    "Stamping & Decorative Tools: Three custom ink-pad stamp cubes and character sticker sheets featuring Lotso alongside sweet treats like strawberries."
+  ],
+  details: "A Disney Pixar Toy Story Lotso stationery set with an A5 journal, fluffy pom-pom pen, pencils, ruler, sharpener, erasers, ink stamps, and decorative stickers.",
+  materials: "Paper stationery and plastic accessories.",
+  extra: ""
 }
 
 ];
@@ -1183,7 +1229,7 @@ const UPDATED_PRICES = {
   9: 50, 10: 70, 11: 35, 12: 43, 13: 100, 15: 100, 16: 59.5, 17: 14,
   23: 30, 24: 12.25, 25: 17.5, 26: 26.25, 27: 10, 28: 15, 29: 35,
   30: 20, 31: 39, 32: 20, 34: 61, 35: 30, 36: 35, 37: 10, 38: 15,
-  39: 15, 40: 20, 41: 19, 42: 35, 43: 30, 44: 12
+  39: 15, 40: 20, 41: 19, 42: 35, 43: 30, 44: 12, 45: 15, 46: 6, 47: 20
 };
 PRODUCTS.forEach(item => {
   if (Object.prototype.hasOwnProperty.call(UPDATED_PRICES, item.id)) {
@@ -1196,7 +1242,7 @@ const productId = Number.parseInt(params.get("id"), 10);
 const product = PRODUCTS.find(item => item.id === productId) || PRODUCTS[0];
 
 // These positions match the product order used by index.html.
-const SHOP_PRODUCT_IDS = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44];
+const SHOP_PRODUCT_IDS = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47];
 function shopIndex(id){ return SHOP_PRODUCT_IDS.indexOf(id); }
 function readStoredList(key){
   try {
