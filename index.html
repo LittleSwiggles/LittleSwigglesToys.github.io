@@ -427,7 +427,7 @@ const PRODUCTS = [
   {
     title: "Hot Wheels Tool Kit Truck",
     price: 41,
-    images: ["images/hotwheelstoolkit.jpg","images/hotwheelstoolkit1.jpg"],
+    images: ["images/hotwheelstoolkit.jpg","images/hotwheelstoolkit1.jpg","images/hotwheelstoolkit2.jpg","images/hotwheelstoolkit3.jpg","images/hotwheelstoolkit4.jpg"],
     link: "product.html?id=6"
   },
   {
@@ -545,9 +545,9 @@ const PRODUCTS = [
     link: "product.html?id=31"
   },
   {
-    title: "Mini Blocks Vehicle Series: Sports Car",
+    title: "Blocks Vehicle Series: Sports Cat",
     price: 41,
-    images: ["images/miniankocars.jpg","images/miniankocars1.jpg","images/miniankocars2.jpg"],
+    images: ["images/miniankocars.jpg","images/miniankocars1.jpg"],
     link: "product.html?id=32"
   },
   {
@@ -621,6 +621,24 @@ const PRODUCTS = [
     price: 41,
     images: ["images/disneyfig.jpg","images/disneyfig1.jpg","images/disneyfig2.jpg","images/disneyfig3.jpg"],
     link: "product.html?id=44"
+  },
+  {
+    title: "PAW Patrol Chase to the Rescue Dough Playset",
+    price: 41,
+    images: ["images/pawpatrol.jpg"],
+    link: "product.html?id=45"
+  },
+  {
+    title: "Disney Lilo & Stitch 2-Pack Figure",
+    price: 41,
+    images: ["images/stitch.jpg","images/stitch1.jpg"],
+    link: "product.html?id=46"
+  },
+  {
+    title: "Disney Pixar Toy Story Lotso Stationery Set",
+    price: 41,
+    images: ["images/lotsoset.jpg"],
+    link: "product.html?id=47"
   }
 ];
 
@@ -629,7 +647,7 @@ const UPDATED_PRICES = {
   9: 50, 10: 70, 11: 35, 12: 43, 13: 100, 15: 100, 16: 59.5, 17: 14,
   23: 30, 24: 12.25, 25: 17.5, 26: 26.25, 27: 10, 28: 15, 29: 35,
   30: 20, 31: 39, 32: 20, 34: 61, 35: 30, 36: 35, 37: 10, 38: 15,
-  39: 15, 40: 20, 41: 19, 42: 35, 43: 30, 44: 12
+  39: 15, 40: 20, 41: 19, 42: 35, 43: 30, 44: 12, 45: 15, 46: 6, 47: 20
 };
 PRODUCTS.forEach(product => {
   const id = Number(product.link.split("id=")[1]);
@@ -658,8 +676,9 @@ const PRODUCT_BRANDS = [
   ["Barbie", "Mattel"], ["Barbie", "Mattel"], ["Barbie", "Mattel"], ["Our Generation"],
   ["Disney", "Make It Real"], ["Anko"], ["Anko"], ["Anko"], ["Anko"], ["Anko"],
   ["Anko"], ["Anko"], ["Anko"], ["DreamWorks Dragons"], ["Anko"], ["Monster Jam"],
-  ["Disney", "Just Play"], ["Sanrio"], ["Anko"], ["Disney", "Pixar"], ["Care Bears"],
-  ["Anko"], ["Anko"], ["Kindred Folk"], ["Disney", "Mattel"], ["ASTRID"], ["Disney", "Just Play"]
+  ["Disney", "Just Play"], ["Sanrio"], ["Anko"], ["Disney", "Pixar"],   ["Care Bears"],
+  ["Anko"], ["Anko"], ["Kindred Folk"], ["Disney", "Mattel"], ["ASTRID"], ["Disney", "Just Play"],
+  ["PAW Patrol", "Hasbro"], ["Disney", "Just Play"], ["Disney", "Pixar"]
 ];
 const BRANDS = ["All", ...new Set(PRODUCT_BRANDS.flat().concat("LeapFrog"))];
 const brandFilters = document.getElementById("brandFilters");
