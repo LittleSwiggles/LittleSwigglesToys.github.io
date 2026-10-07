@@ -1220,6 +1220,37 @@ const PRODUCTS = [
   details: "A Disney Pixar Toy Story Lotso stationery set with an A5 journal, fluffy pom-pom pen, pencils, ruler, sharpener, erasers, ink stamps, and decorative stickers.",
   materials: "Paper stationery and plastic accessories.",
   extra: ""
+},
+
+{
+  id: 48,
+  title: "Canvas Weekender Bag",
+  price: 41,
+  images: ["images/canvasweekender.jpg"],
+  features: [
+    "Design & Storage: This duffle-style weekender has a spacious central zippered main compartment, twin top carry handles, an open front slider pocket, and an adjustable, detachable shoulder strap.",
+    "Material: Lightweight, soft cotton canvas fabric that is easy to pack, fold flat, or spot-clean.",
+    "Common Use Cases: Its compact yet roomy layout is ideal for gym trips, sleepovers, or light weekend travel."
+  ],
+  details: "A lightweight cotton canvas weekender bag with a spacious zippered compartment, front pocket, carry handles, and a detachable shoulder strap.",
+  materials: "Cotton canvas.",
+  extra: ""
+},
+
+{
+  id: 49,
+  title: "Canvas Backpack",
+  price: 41,
+  images: ["images/canvasbackpack.jpg"],
+  features: [
+    "Material: Lightweight, soft cotton canvas fabric with a breathable texture.",
+    "Storage Structure: A large main zippered compartment for textbooks, laptops, or folders, plus a front zippered utility pocket for quick-access items.",
+    "Hardware & Straps: Matching pastel blue zippers, fabric zipper pulls, a top carry handle loop, and fully adjustable webbed shoulder straps.",
+    "Aesthetic: A soft, minimalist, preppy cottagecore style for school, casual day trips, or light travel."
+  ],
+  details: "A minimalist cotton canvas backpack with a roomy zippered main compartment, front utility pocket, pastel blue zippers, and adjustable shoulder straps.",
+  materials: "Cotton canvas.",
+  extra: ""
 }
 
 ];
@@ -1229,7 +1260,8 @@ const UPDATED_PRICES = {
   9: 50, 10: 70, 11: 35, 12: 43, 13: 100, 15: 100, 16: 59.5, 17: 14,
   23: 30, 24: 12.25, 25: 17.5, 26: 26.25, 27: 10, 28: 15, 29: 35,
   30: 20, 31: 39, 32: 20, 34: 61, 35: 30, 36: 35, 37: 10, 38: 15,
-  39: 15, 40: 20, 41: 19, 42: 35, 43: 30, 44: 12, 45: 15, 46: 6, 47: 20
+  39: 15, 40: 20, 41: 19, 42: 35, 43: 30, 44: 12, 45: 15, 46: 6, 47: 20,
+  48: 30, 49: 30
 };
 PRODUCTS.forEach(item => {
   if (Object.prototype.hasOwnProperty.call(UPDATED_PRICES, item.id)) {
@@ -1242,7 +1274,7 @@ const productId = Number.parseInt(params.get("id"), 10);
 const product = PRODUCTS.find(item => item.id === productId) || PRODUCTS[0];
 
 // These positions match the product order used by index.html.
-const SHOP_PRODUCT_IDS = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47];
+const SHOP_PRODUCT_IDS = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49];
 function shopIndex(id){ return SHOP_PRODUCT_IDS.indexOf(id); }
 function readStoredList(key){
   try {
