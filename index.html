@@ -117,8 +117,9 @@ header{
 .thumbs{display:flex;gap:6px;margin-top:8px;}
 .thumbs img{width:50px;height:50px;object-fit:contain;border:1px solid #ddd;border-radius:8px;cursor:pointer;}
 .card strong{display:block;margin-top:10px}
-.product-link{display:block;margin-top:10px;color:#222;font-weight:bold;text-decoration:none;cursor:pointer}
-.product-link:hover{color:#ff1493}
+.product-link{display:block;margin-top:10px;color:#b91064;font-weight:bold;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;cursor:pointer}
+.product-link:hover,.product-link:focus-visible{color:#ff1493;text-decoration-thickness:2px}
+.product-link:focus-visible{outline:2px solid #ff1493;outline-offset:3px;border-radius:2px}
 .price{font-weight:bold;margin-top:4px}
 
 /* Add to Cart & Wishlist buttons */
