@@ -431,7 +431,7 @@ const PRODUCTS = [
     link: "product.html?id=6"
   },
   {
-    title: "Fisher Price Lion Piano",
+    title: "Fisher Price 25 Key Lion Piano",
     price: 41,
     images: ["images/fisherpricelionpiano.jpg"],
     link: "product.html?id=7"
@@ -641,13 +641,13 @@ const PRODUCTS = [
     link: "product.html?id=47"
   },
   {
-    title: "Canvas Weekender Bag",
+    title: "Gingham Weekender Bag",
     price: 41,
     images: ["images/canvasweekender.jpg"],
     link: "product.html?id=48"
   },
   {
-    title: "Canvas Backpack",
+    title: "Gingham Backpack",
     price: 41,
     images: ["images/canvasbackpack.jpg"],
     link: "product.html?id=49"
@@ -940,14 +940,9 @@ function closeModal(id){document.getElementById(id).style.display="none";}
 // POPUP
 const popup=document.getElementById("popup");
 const closePopup=document.getElementById("closePopup");
-const popupSeenKey = "littleSwigglesNewsletterPopupSeen";
-if (!localStorage.getItem(popupSeenKey)) {
-  setTimeout(()=>{
-    if (localStorage.getItem(popupSeenKey)) return;
-    popup.style.display="flex";
-    localStorage.setItem(popupSeenKey, "true");
-  },1500);
-}
+setTimeout(()=>{
+  popup.style.display="flex";
+},1500);
 closePopup.onclick=()=>{popup.style.display="none"};
 document.getElementById("newsletterForm").addEventListener("submit", event=>{
   event.preventDefault();
