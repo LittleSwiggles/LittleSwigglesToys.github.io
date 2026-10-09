@@ -940,10 +940,16 @@ function closeModal(id){document.getElementById(id).style.display="none";}
 // POPUP
 const popup=document.getElementById("popup");
 const closePopup=document.getElementById("closePopup");
+const popupShownKey = "littleSwigglesPopupShown";
 setTimeout(()=>{
-  popup.style.display="flex";
+  if(sessionStorage.getItem(popupShownKey) !== "true") {
+    popup.style.display="flex";
+    sessionStorage.setItem(popupShownKey, "true");
+  }
 },1500);
-closePopup.onclick=()=>{popup.style.display="none"};
+closePopup.onclick=()=>{
+  popup.style.display="none";
+};
 document.getElementById("newsletterForm").addEventListener("submit", event=>{
   event.preventDefault();
   const email = document.getElementById("newsletterEmail").value.trim();
