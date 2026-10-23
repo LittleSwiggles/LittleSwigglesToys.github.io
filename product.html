@@ -168,6 +168,9 @@ ul{margin-left:20px;}
 .modal-close{position:absolute;top:14px;right:14px;font-size:20px}
 .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
 .modal-actions a{padding:10px 16px;border-radius:999px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;text-decoration:none;font-weight:bold}
+.whatsapp-button{position:fixed;right:22px;bottom:22px;z-index:1100;display:inline-flex;align-items:center;gap:9px;padding:13px 18px;border-radius:999px;background:#25d366;color:#fff;text-decoration:none;font-weight:bold;box-shadow:0 5px 18px rgba(0,0,0,.25);transition:transform .2s,background .2s}
+.whatsapp-button:hover{background:#1ebe5d;transform:translateY(-2px)}
+.whatsapp-button:focus-visible{outline:3px solid #222;outline-offset:3px}
 
 @media(max-width:760px){
   header{padding:14px;}
@@ -201,6 +204,8 @@ ul{margin-left:20px;}
     <div id="cartIcon" role="link" tabindex="0" aria-label="Go to checkout">🛒 <span id="cartCount">0</span></div>
   </div>
 </header>
+
+<a class="whatsapp-button" href="https://wa.me/96179458904" target="_blank" rel="noopener noreferrer" aria-label="Chat with Little Swiggles on WhatsApp">💬 Chat on WhatsApp</a>
 
 <div class="modal-overlay" id="wishlistModal" role="dialog" aria-modal="true" aria-labelledby="wishlistTitle">
   <div class="modal-content">
@@ -300,7 +305,7 @@ const PRODUCTS = [
 
 {
   id: 2,
-  title: "Make It Real Beyout",
+  title: "Make It Real Just Beyoutiful Mega Cosmetic Set",
   price: 32,
   images: [
     "images/makeitrealbeyoutiful.jpg",
@@ -515,8 +520,8 @@ const PRODUCTS = [
     "images/barbiemagic.jpg",
     "images/barbiemagic1.jpg",
     "images/barbiemagic2.jpg",
-    "images/barbiemagic3.jpg",
-    "images/barbiemagic4.jpg"
+    "images/babriemagic3.jpg",
+    "images/babriemagic4.jpg"
   ],
   features: [
     "Malibu wears her iconic, shimmery fairy-tale-inspired outfit from Barbie: A Touch of Magic, complete with sparkles, wings, and magical details.",
@@ -1013,7 +1018,7 @@ const PRODUCTS = [
   id: 36,
   title: "Foodie Backpack Set",
   price: 35,
-  images: ["images/foodiebackpack1.jpg", "images/foodiebackpack2.jpg", "images/foodiebackpack3.jpg"],
+  images: ["images/foodiebackpack.jpg", "images/foodiebackpack1.jpg"],
   features: [
     "Backpack: 45cm (H) x 31cm (W) x 16.5cm (D), with a main compartment, medium and small front zippered pockets, two side mesh pockets, SBS zippers, and padded back and shoulder straps.",
     "Insulated lunch bag: 26cm (H) x 18cm (W) x 11.5cm (D).",
@@ -1082,15 +1087,12 @@ const PRODUCTS = [
   price: 20,
   images: ["images/unicornkit.jpg","images/unicornkit1.jpg","images/unicornkit2.jpg","images/unicornkit3.jpg"],
   features: [
-    "Unicorn-themed stationery art box for doodling, designing, and creating unicorn adventures.",
-    "Suitable for ages: 3+ years.",
-    "Includes 8 mini colour pencils, 8 mini watercolour pens, 6 colour paints, 6 stamps, 2 highlighters, 1 sharpener, 1 bubble sticker, 1 mini notepad, 1 six-colour highlighter, 1 brush, 1 ruler, 1 pencil, 1 glue stick, 1 gel pen, 1 pencil case, 1 A4 sticker, and 1 notebook.",
-    "42 pieces.",
-    "Dimensions/Size: 25.5cm (H) x 37cm (W) x 5cm (D)."
+    "Vibrant retro-styled pink and purple design featuring a pink-maned unicorn leaping over rainbows, stars, and flowers.",
+    "Activity box packed with over 40 pieces of arts, crafts, and stationery essentials."
   ],
-  details: "Unleash a world of imagination with this enchanting unicorn-themed stationery art box! It's the perfect set for young creatives to doodle, design, and dream up their own unicorn adventures.",
+  details: "A colorful unicorn-themed stationery and art activity set with over 40 creative pieces.",
   materials: "",
-  extra: "Adult supervision is recommended.\n\nCaution: Art materials such as paints, markers, and highlighters may cause stains. Protect clothes, carpets, work surfaces, furniture, and other objects. Follow usage instructions carefully.\n\nCaution: Contains a functional sharp edge. Please use as intended and follow usage instructions carefully.\n\nWarning: Choking hazard. Small parts. Follow usage instructions carefully."
+  extra: ""
 },
 
 {
@@ -1242,11 +1244,11 @@ const PRODUCTS = [
 ];
 
 const UPDATED_PRICES = {
-  0: 43, 1: 39, 2: 32, 3: 35, 4: 60, 5: 27, 6: 30, 7: 30, 8: 20,
-  9: 50, 10: 80, 11: 40, 12: 43, 13: 130, 15: 100, 16: 60, 17: 20,
-  23: 30, 24: 13, 25: 18, 26: 27, 27: 10, 28: 15, 29: 35,
-  30: 25, 31: 39, 32: 20, 34: 80, 35: 35, 36: 35, 37: 10, 38: 15,
-  39: 15, 40: 20, 41: 19, 42: 40, 43: 30, 44: 12, 45: 15, 46: 6, 47: 20,
+  0: 43, 1: 39, 2: 32, 3: 20, 4: 59.5, 5: 27, 6: 30, 7: 30, 8: 20,
+  9: 50, 10: 70, 11: 35, 12: 43, 13: 100, 15: 100, 16: 59.5, 17: 14,
+  23: 30, 24: 12.25, 25: 17.5, 26: 26.25, 27: 10, 28: 15, 29: 35,
+  30: 25, 31: 39, 32: 20, 34: 80, 35: 30, 36: 35, 37: 10, 38: 15,
+  39: 15, 40: 20, 41: 19, 42: 35, 43: 30, 44: 12, 45: 15, 46: 6, 47: 20,
   48: 30, 49: 30
 };
 PRODUCTS.forEach(item => {
@@ -1396,6 +1398,37 @@ document.addEventListener("click", event => {
     localStorage.setItem(key, JSON.stringify(items));
   }, 0);
 });
+</script>
+<script>
+const whatsappButton = document.querySelector(".whatsapp-button");
+if (whatsappButton) {
+  whatsappButton.addEventListener("click", event => {
+    if (!/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)) return;
+    event.preventDefault();
+    window.location.href = "whatsapp://send?phone=96179458904";
+    setTimeout(() => {
+      if (document.visibilityState === "visible") {
+        window.location.href = whatsappButton.href;
+      }
+    }, 1200);
+  });
+}
+</script>
+<script>
+// Keep the product detail price aligned with the catalog prices on index.html.
+const HOME_PRODUCT_PRICES = {
+  0: 43, 1: 39, 2: 32, 3: 35, 4: 60, 5: 27, 6: 30, 7: 30, 8: 20,
+  9: 50, 10: 80, 11: 40, 12: 43, 13: 130, 15: 100, 16: 60, 17: 20,
+  23: 30, 24: 13, 25: 18, 26: 27, 27: 10, 28: 15, 29: 35,
+  30: 25, 31: 39, 32: 20, 34: 80, 35: 35, 36: 35, 37: 10, 38: 15,
+  39: 15, 40: 20, 41: 19, 42: 40, 43: 30, 44: 12, 45: 15, 46: 6, 47: 20,
+  48: 30, 49: 30
+};
+const detailProductId = Number(new URLSearchParams(window.location.search).get("id"));
+const detailPrice = document.getElementById("productPrice");
+if (detailPrice && Number.isInteger(detailProductId)) {
+  detailPrice.textContent = `$${HOME_PRODUCT_PRICES[detailProductId] ?? 41}`;
+}
 </script>
 </body>
 </html>
