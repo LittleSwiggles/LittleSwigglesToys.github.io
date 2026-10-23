@@ -822,6 +822,21 @@ function render() {
 }
 render();
 
+const homeScrollKey = "littleSwigglesHomeScroll";
+document.getElementById("products").addEventListener("click", event => {
+  const productLink = event.target.closest(".product-link");
+  if (productLink) {
+    sessionStorage.setItem(homeScrollKey, String(window.scrollY));
+  }
+});
+window.addEventListener("pageshow", () => {
+  const savedScrollY = sessionStorage.getItem(homeScrollKey);
+  if (savedScrollY !== null) {
+    sessionStorage.removeItem(homeScrollKey);
+    requestAnimationFrame(() => window.scrollTo(0, Number(savedScrollY)));
+  }
+});
+
 // IMAGE FUNCTIONS
 function changeImage(i,d){
   currentIndexes[i]=(currentIndexes[i]+d+PRODUCTS[i].images.length)%PRODUCTS[i].images.length;
