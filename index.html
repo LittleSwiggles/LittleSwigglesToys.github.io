@@ -30,14 +30,18 @@ header{
 .header-search button{padding:0 22px;border:0;background:#d91578;color:#fff;font-weight:bold;cursor:pointer;}
 .header-search button:hover{background:#b91064;}
 .main-nav{display:flex;align-items:center;gap:8px;}
-.main-nav a,.brands-toggle{padding:10px 14px;border-radius:999px;color:#54243b;text-decoration:none;font-weight:bold;white-space:nowrap;transition:background .2s,color .2s;}
+.main-nav a,.brands-toggle{padding:10px 14px;border-radius:999px;color:#54243b;text-decoration:none;font-family:inherit;font-size:16px;font-weight:bold;white-space:nowrap;transition:background .2s,color .2s;}
 .main-nav a:hover,.main-nav a:focus-visible,.brands-toggle:hover,.brands-toggle:focus-visible{background:#fff;color:#d91578;outline:none;}
 .brands-menu-wrap{position:relative;}
-.brands-toggle{border:0;background:transparent;font:inherit;font-weight:bold;cursor:pointer;}
+  .brands-toggle{border:0;background:transparent;cursor:pointer;}
 .brands-menu{position:absolute;top:calc(100% + 8px);right:0;z-index:20;width:min(320px,90vw);max-height: min(60vh,420px);overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:12px;background:#fff;border:1px solid #f3c9dc;border-radius:14px;box-shadow:var(--shadow);}
 .brands-menu[hidden]{display:none;}
 .brands-menu button{padding:9px 10px;border:1px solid #eee;border-radius:9px;background:#fff;color:#54243b;text-align:left;cursor:pointer;}
 .brands-menu button:hover,.brands-menu button.active{background:#ffe0f0;border-color:#ff69b4;color:#d91578;}
+.sort-menu{position:absolute;top:calc(100% + 8px);right:0;z-index:20;width:180px;display:grid;gap:6px;padding:12px;background:#fff;border:1px solid #f3c9dc;border-radius:14px;box-shadow:var(--shadow);}
+.sort-menu[hidden]{display:none;}
+.sort-menu button{padding:9px 10px;border:1px solid #eee;border-radius:9px;background:#fff;color:#54243b;text-align:left;cursor:pointer;}
+.sort-menu button:hover,.sort-menu button.active{background:#ffe0f0;border-color:#ff69b4;color:#d91578;}
 .logo{width:120px;height:120px;border-radius:50%;overflow:hidden;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.2);}
 .logo img{width:100%;height:100%;object-fit:cover}
 
@@ -200,6 +204,11 @@ header{
 .lightbox-close{position:absolute;top:12px;right:12px;width:48px;height:48px;border:0;border-radius:50%;background:#fff;color:#222;font-size:32px;line-height:1;cursor:pointer;z-index:2;box-shadow:0 2px 12px rgba(0,0,0,.35)}
 .lightbox-close:hover{background:#ff69b4;color:#fff}
 
+/* WHATSAPP */
+.whatsapp-button{position:fixed;right:22px;bottom:22px;z-index:1100;display:inline-flex;align-items:center;gap:9px;padding:13px 18px;border-radius:999px;background:#25d366;color:#fff;text-decoration:none;font-weight:bold;box-shadow:0 5px 18px rgba(0,0,0,.25);transition:transform .2s,background .2s;}
+.whatsapp-button:hover{background:#1ebe5d;transform:translateY(-2px);}
+.whatsapp-button:focus-visible{outline:3px solid #222;outline-offset:3px;}
+
 /* FOOTER */
 .site-footer{background:#382535;color:#fff;margin-top:40px;padding:34px 20px 18px;}
 .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:28px;align-items:center;}
@@ -227,7 +236,7 @@ header{
   .header-search input{padding:11px 14px;font-size:14px;}
   .header-search button{padding:0 16px;font-size:14px;}
   .main-nav{justify-content:center;flex-wrap:wrap;overflow:visible;padding:2px 0 6px;}
-  .main-nav a{padding:9px 12px;font-size:14px;}
+  .main-nav a,.brands-toggle{padding:9px 12px;font-size:14px;}
   .brands-toggle{min-height:44px;padding:10px 14px;}
   .brands-menu{left:50%;right:auto;transform:translateX(-50%);width:min(320px,calc(100vw - 24px));}
   .brands-menu button{min-height:44px;}
@@ -312,7 +321,7 @@ header{
     <div class="logo"><img src="images/logotoys.jpg" alt="Logo" /></div>
     <div class="top-banner">
       <div class="marquee">
-        <span>Original Brands • Premium Toys • Free delivery across Lebanon on orders over $100 ✨</span>
+        <span>Original Brands • Premium Toys • Lebanon's Best Prices, All in One Place • Free delivery across Lebanon on orders over $100 ✨</span>
       </div>
     </div>
     <div class="top-icons">
@@ -335,6 +344,10 @@ header{
       <div class="brands-menu-wrap">
         <button class="brands-toggle" id="brandsToggle" type="button" aria-expanded="false" aria-controls="brandsMenu">Brands ▾</button>
         <div class="brands-menu" id="brandsMenu" hidden></div>
+      </div>
+      <div class="brands-menu-wrap">
+        <button class="brands-toggle" id="sortToggle" type="button" aria-expanded="false" aria-controls="sortMenu">Sort By ▾</button>
+        <div class="sort-menu" id="sortMenu" hidden></div>
       </div>
       <a href="#aboutTitle">About us</a>
     </nav>
@@ -371,6 +384,8 @@ header{
     </section>
   </div>
 </main>
+
+<a class="whatsapp-button" href="https://wa.me/96179458904" target="_blank" rel="noopener noreferrer" aria-label="Chat with Little Swiggles on WhatsApp">💬 Chat on WhatsApp</a>
 
 <footer class="site-footer">
   <div class="footer-inner">
@@ -684,8 +699,15 @@ function loadSavedItems(key){
 cart = loadSavedItems("littleSwigglesCart");
 wishlist = loadSavedItems("littleSwigglesWishlist");
 let activeBrand = "All";
+let activeCategory = "All";
 let activeSearch = "";
 
+const PRODUCT_CATEGORIES = {
+  Boys: [6, 9, 10, 30, 31, 32, 33, 45],
+  Girls: [0, 1, 2, 3, 4, 5, 11, 12, 13, 15, 16, 17, 34, 38, 39, 40, 41, 42],
+  Backpacks: [23, 26, 27, 29, 30, 35, 36, 38, 39, 43, 49],
+  Toys: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 31, 32, 33, 34, 38, 39, 40, 41, 42, 44, 45, 46]
+};
 const PRODUCT_BRANDS = [
   ["Barbie", "Mattel"], ["Barbie", "Mattel"], ["Make It Real"], ["ZURU"],
   ["Barbie", "Mattel"], ["Make It Real"], ["Hot Wheels", "Mattel"], ["Fisher-Price"],
@@ -702,6 +724,12 @@ const BRANDS = ["All", ...new Set(PRODUCT_BRANDS.flat().concat("LeapFrog"))];
 const brandFilters = document.getElementById("brandFilters");
 const brandsMenu = document.getElementById("brandsMenu");
 const brandsToggle = document.getElementById("brandsToggle");
+const sortMenu = document.getElementById("sortMenu");
+const sortToggle = document.getElementById("sortToggle");
+const CATEGORIES = ["All", "Boys", "Girls", "Backpacks", "Toys"];
+sortMenu.innerHTML = CATEGORIES.map(category =>
+  `<button class="${category === activeCategory ? "active" : ""}" type="button" data-category="${category}">${category}</button>`
+).join("");
 brandFilters.innerHTML = BRANDS.map(brand =>
   `<button class="chip${brand === activeBrand ? " active" : ""}" type="button" data-brand="${brand}">${brand}</button>`
 ).join("");
@@ -729,11 +757,32 @@ brandsMenu.addEventListener("click", event => {
 brandsToggle.addEventListener("click", () => {
   brandsMenu.hidden = !brandsMenu.hidden;
   brandsToggle.setAttribute("aria-expanded", String(!brandsMenu.hidden));
+  sortMenu.hidden = true;
+  sortToggle.setAttribute("aria-expanded", "false");
+});
+sortToggle.addEventListener("click", () => {
+  sortMenu.hidden = !sortMenu.hidden;
+  sortToggle.setAttribute("aria-expanded", String(!sortMenu.hidden));
+  brandsMenu.hidden = true;
+  brandsToggle.setAttribute("aria-expanded", "false");
+});
+sortMenu.addEventListener("click", event => {
+  const button = event.target.closest("[data-category]");
+  if (!button) return;
+  activeCategory = button.dataset.category;
+  sortMenu.querySelectorAll("[data-category]").forEach(option =>
+    option.classList.toggle("active", option.dataset.category === activeCategory)
+  );
+  sortMenu.hidden = true;
+  sortToggle.setAttribute("aria-expanded", "false");
+  render();
 });
 document.addEventListener("click", event => {
   if (!event.target.closest(".brands-menu-wrap")) {
     brandsMenu.hidden = true;
     brandsToggle.setAttribute("aria-expanded", "false");
+    sortMenu.hidden = true;
+    sortToggle.setAttribute("aria-expanded", "false");
   }
 });
 document.getElementById("searchForm").addEventListener("submit", event => event.preventDefault());
@@ -746,10 +795,12 @@ document.getElementById("productSearch").addEventListener("input", event => {
 function render() {
   const products = document.getElementById("products");
   const visibleProducts = PRODUCTS.map((product, index) => ({ product, index }))
-    .filter(({ product, index }) =>
-      (activeBrand === "All" || PRODUCT_BRANDS[index].includes(activeBrand)) &&
-      product.title.toLowerCase().includes(activeSearch)
-    );
+    .filter(({ product, index }) => {
+      const productId = Number(product.link.split("id=")[1]);
+      const matchesBrand = activeBrand === "All" || PRODUCT_BRANDS[index].includes(activeBrand);
+      const matchesCategory = activeCategory === "All" || PRODUCT_CATEGORIES[activeCategory].includes(productId);
+      return matchesBrand && matchesCategory && product.title.toLowerCase().includes(activeSearch);
+    });
   products.innerHTML = visibleProducts.map(({ product: p, index: i })=>`
     <div class="card">
       <div class="image-wrap">
@@ -960,6 +1011,21 @@ document.getElementById("newsletterForm").addEventListener("submit", event=>{
 
 // INITIAL COUNT
 updateCounts();
+</script>
+<script>
+const whatsappButton = document.querySelector(".whatsapp-button");
+if (whatsappButton) {
+  whatsappButton.addEventListener("click", event => {
+    if (!/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)) return;
+    event.preventDefault();
+    window.location.href = "whatsapp://send?phone=96179458904";
+    setTimeout(() => {
+      if (document.visibilityState === "visible") {
+        window.location.href = whatsappButton.href;
+      }
+    }, 1200);
+  });
+}
 </script>
 
 </body>
