@@ -4,6 +4,15 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Barbie Dreamtopia Twinkle Lights Doll | Little Swiggles</title>
+<meta property="og:type" content="product" />
+<meta property="og:title" content="Barbie Dreamtopia Twinkle Lights Doll | Little Swiggles" />
+<meta property="og:description" content="Barbie Dreamtopia Twinkle Lights Doll at Little Swiggles." />
+<meta property="og:image" content="images/barbiedreamtopia.jpg" />
+<meta property="og:url" content="" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Barbie Dreamtopia Twinkle Lights Doll | Little Swiggles" />
+<meta name="twitter:description" content="Barbie Dreamtopia Twinkle Lights Doll at Little Swiggles." />
+<meta name="twitter:image" content="images/barbiedreamtopia.jpg" />
 
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=sw$ap" rel="stylesheet" />
 
@@ -1239,6 +1248,24 @@ PRODUCTS.forEach(item => {
 const params = new URLSearchParams(window.location.search);
 const productId = Number.parseInt(params.get("id"), 10);
 const product = PRODUCTS.find(item => item.id === productId) || PRODUCTS[0];
+
+// Keep the browser title and share metadata in sync with the selected product.
+const shareTitle = `${product.title} | Little Swiggles`;
+const shareDescription = product.details || `${product.title} at Little Swiggles.`;
+const shareImage = new URL(product.images[0], window.location.href).href;
+document.title = shareTitle;
+[
+  ['property', 'og:title', shareTitle],
+  ['property', 'og:description', shareDescription],
+  ['property', 'og:image', shareImage],
+  ['property', 'og:url', window.location.href],
+  ['name', 'twitter:title', shareTitle],
+  ['name', 'twitter:description', shareDescription],
+  ['name', 'twitter:image', shareImage]
+].forEach(([attribute, name, content]) => {
+  const meta = document.querySelector(`meta[${attribute}="${name}"]`);
+  if (meta) meta.setAttribute('content', content);
+});
 
 // These positions match the product order used by index.html.
 const SHOP_PRODUCT_IDS = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49];
