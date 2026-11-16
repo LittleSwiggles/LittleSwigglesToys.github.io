@@ -140,8 +140,8 @@ header{
 .card .action-buttons button:hover{transform:scale(1.05)}
 
 /* POPUPS & MODALS */
-.popup-overlay{position:fixed;inset:0;display:none;justify-content:center;align-items:center;z-index:999;}
-.popup-content{background:linear-gradient(135deg,var(--accent1),var(--accent2));color:#fff;padding:26px;border-radius:18px;text-align:center;width:90%;max-width:480px;position:relative;}
+.popup-overlay{position:fixed;inset:0;display:none;justify-content:center;align-items:center;z-index:999;pointer-events:none;}
+.popup-content{background:linear-gradient(135deg,var(--accent1),var(--accent2));color:#fff;padding:26px;border-radius:18px;text-align:center;width:90%;max-width:480px;position:relative;pointer-events:auto;}
 .popup-close{position:absolute;top:12px;right:16px;font-size:24px;cursor:pointer}
 
 /* Cart/Wishlist Modals */
@@ -244,8 +244,8 @@ header{
   .main-nav{justify-content:center;flex-wrap:wrap;overflow:visible;padding:2px 0 6px;}
   .main-nav a,.brands-toggle{padding:9px 12px;font-size:14px;}
   .brands-toggle{min-height:44px;padding:10px 14px;}
-  .brands-menu{left:50%;right:auto;transform:translateX(-50%);width:min(320px,calc(100vw - 24px));}
-  .brands-menu button{min-height:44px;}
+  .brands-menu{left:50%;right:auto;transform:translateX(-50%);width:min(360px,calc(100vw - 24px));max-height:min(65vh,480px);grid-template-columns:repeat(2,minmax(0,1fr));}
+  .brands-menu button{min-height:48px;overflow-wrap:anywhere;}
   .logo{width:68px;height:68px;flex:0 0 68px}
   .top-banner{padding-right:94px;font-size:12px}
   .top-icons{right:12px;gap:8px}
@@ -771,10 +771,15 @@ brandsMenu.innerHTML = BRANDS.map(brand =>
 ).join("");
 function selectBrand(brand){
   activeBrand = brand;
+  activeCategory = "All";
   document.querySelectorAll("[data-brand]").forEach(button =>
     button.classList.toggle("active", button.dataset.brand === activeBrand)
   );
+  sortMenu.querySelectorAll("[data-category]").forEach(option =>
+    option.classList.toggle("active", option.dataset.category === activeCategory)
+  );
   render();
+  document.getElementById("products").scrollIntoView({behavior:"smooth",block:"start"});
 }
 brandFilters.addEventListener("click", event => {
   const button = event.target.closest("[data-brand]");
@@ -790,25 +795,26 @@ brandsMenu.addEventListener("click", event => {
 brandsToggle.addEventListener("click", () => {
   brandsMenu.hidden = !brandsMenu.hidden;
   brandsToggle.setAttribute("aria-expanded", String(!brandsMenu.hidden));
-  sortMenu.hidden = true;
-  sortToggle.setAttribute("aria-expanded", "false");
 });
 sortToggle.addEventListener("click", () => {
   sortMenu.hidden = !sortMenu.hidden;
   sortToggle.setAttribute("aria-expanded", String(!sortMenu.hidden));
-  brandsMenu.hidden = true;
-  brandsToggle.setAttribute("aria-expanded", "false");
 });
 sortMenu.addEventListener("click", event => {
   const button = event.target.closest("[data-category]");
   if (!button) return;
   activeCategory = button.dataset.category;
+  activeBrand = "All";
+  document.querySelectorAll("[data-brand]").forEach(option =>
+    option.classList.toggle("active", option.dataset.brand === activeBrand)
+  );
   sortMenu.querySelectorAll("[data-category]").forEach(option =>
     option.classList.toggle("active", option.dataset.category === activeCategory)
   );
   sortMenu.hidden = true;
   sortToggle.setAttribute("aria-expanded", "false");
   render();
+  document.getElementById("products").scrollIntoView({behavior:"smooth",block:"start"});
 });
 document.addEventListener("click", event => {
   if (!event.target.closest(".brands-menu-wrap")) {
